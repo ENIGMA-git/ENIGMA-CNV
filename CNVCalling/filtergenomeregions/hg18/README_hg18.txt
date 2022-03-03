@@ -1,18 +1,24 @@
 #### Centromeric, telomeric, segmental duplications regions
--all files were downloaded and manipulated 2015-03-31
+-all files were downloaded and converted 2015-03-31
 
+#########################
 ## Centromeric regions ##
+#########################
 centro_hg18.txt 
 	# Downloaded from the UCSC browser, TableBrowser, choose assembly ÒMar. 2006 (NCBI36/hg18)", group "All Tables", choose Table "gap", click "Filter create", Set the "type" field to centromere*.
-	# created penncnv-inputfile and added 100 kb to each end
-	awk '{if (NR>2) {printf $2 ":" $3 "-" $4 "\n"}}' Centromericregion_hg18.txt | # pennncnv format conversion
-	awk '{if (NR>2) {printf $2 ":" $3-100000 "-" $4+100000 "\n"}}' - >centro_hg18.txt # add 100kb on each side
+	# created penncnv-inputfile
+	awk '{if (NR>2) {printf $2 ":" $3 "-" $4 "\n"}}' tmp >centro_hg18.txt  # pennncnv format conversion
+	# NOTE - some projects remove additionally 100kb on either side of the centromere
 
+#############################
 ## Immunoglobulin regions  ##
+#############################
 immuno_hg18.txt
 	# copied from the homepage of PennCNV (http://penncnv.openbioinformatics.org/en/latest/misc/faq/)
 	
+####################################
 ## Segmental duplications regions ##
+####################################
 segmentaldups_hg18.txt
 
 # Downloaded from: http://hgdownload.cse.ucsc.edu/goldenPath/hg18/database/genomicSuperDups.txt.gz
@@ -23,7 +29,9 @@ segmentaldups_hg18.txt
 		awk '{printf $1 ":" $2 "-" $3 "\n"}' >segmentaldups_hg18.txt # Convert back to penn-cnv-inputfile
 
 
+#######################
 ## Telomeric regions ##
+#######################
 telo_hg18.txt 
 
 	# Downloaded end chromosomes from the UCSC browser:
