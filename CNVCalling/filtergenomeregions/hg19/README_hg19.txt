@@ -1,10 +1,6 @@
 #### Centromeric, telomeric, segmental duplications regions
 -all files were downloaded and converted 2017-10-23
 
-
-
-
-
 #########################
 ## Centromeric regions ##
 #########################
