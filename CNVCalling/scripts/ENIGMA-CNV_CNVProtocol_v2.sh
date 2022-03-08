@@ -252,16 +252,16 @@ if [ ${length_fileinput} >299 ]
 		# a. Generate a list of x individuals randomly selected from your file
 		export NoofIndividuals; awk 'BEGIN {p=ENVIRON["NoofIndividuals"]; srand();} {a[NR]=$0} END{for(i=1; i<=p; i++){x=int(rand()*NR) + 1; print a[x]}}' ${ANALYSISDIR}/${List_postQC} >${ANALYSISDIR}/${List_Helperfiles}
 		# b. Generation of PFB-file
-#		perl compile_pfb_new.pl --listfile ${ANALYSISDIR}/${List_Helperfiles} -snpposfile ${ANALYSISDIR}/${SNPPosFile} --output ${ANALYSISDIR}/${PFBname}
+		perl compile_pfb_new.pl --listfile ${ANALYSISDIR}/${List_Helperfiles} -snpposfile ${ANALYSISDIR}/${SNPPosFile} --output ${ANALYSISDIR}/${PFBname}
 
 			# --output <file>             specify output file (default: STDOUT)
 			# --snpposfile <file>         a file that contains Chr and Position for SNPs
 			# --listfile <file>           a listfile that contains signal file names
 
 		# c. Generation of GC-model file
-#		singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif cp /opt/PennCNV-1.0.5/gc_file/${genomeversion}.gc5Base.txt.gz /analysisdir/ # copy gcbase-file over from penncnv-dir to be able to unzip
-#		gunzip ${ANALYSISDIR}/${genomeversion}.gc5Base.txt.gz
-#		singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/cal_gc_snp.pl /analysisdir/${genomeversion}.gc5Base.txt /analysisdir/${PFBname} -output /analysisdir/${GCname}
+		singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif cp /opt/PennCNV-1.0.5/gc_file/${genomeversion}.gc5Base.txt.gz /analysisdir/ # copy gcbase-file over from penncnv-dir to be able to unzip
+		gunzip ${ANALYSISDIR}/${genomeversion}.gc5Base.txt.gz
+		singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/cal_gc_snp.pl /analysisdir/${genomeversion}.gc5Base.txt /analysisdir/${PFBname} -output /analysisdir/${GCname}
 		rm ${ANALYSISDIR}/${genomeversion}.gc5Base.txt
 else	
 	echo "less than 200 individuals, please choose a generic PFB-file after conferring with the ENIGMA-CNV working group"
@@ -274,7 +274,7 @@ fi
 # Autosomal and X-chromosome CNVs are called separately
 
 ## Step 1: Call CNVs on autosomal chromosomes with GC-adjustment
-# singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list /analysisdir/${List_postQC}_adj --confidence -out /analysisdir/${Dataset}.auto.raw  -log /analysisdir/${Dataset}.auto.raw.log 
+singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list /analysisdir/${List_postQC}_adj --confidence -out /analysisdir/${Dataset}.auto.raw  -log /analysisdir/${Dataset}.auto.raw.log 
 	# --test		tells the program to generate CNV calls 
 	# --confidence	calculate confidence for each CNV
 	# --hmmfile and –pfbfile	provides the files for hmm- & pfb-files
@@ -289,7 +289,7 @@ fi
 ## Step 2: Call CNVs on X-chromosome with GC-adjustment
 
 # a. Make sex-file for your inputfile
-# awk '{print $1,$1}' ${List_postQC}_adj | awk -v postscript=${postscript} -v prescript=${prescript} '{sub(/.+\//,"\/",$1); sub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1]=$2;next} {if ($1 in k) {print k[$1] "\t" $2}}' - ${SexFile} >${ANALYSISDIR}/${Dataset}_SexFile.txt 
+awk '{print $1,$1}' ${List_postQC}_adj | awk -v postscript=${postscript} -v prescript=${prescript} '{sub(/.+\//,"\/",$1); sub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1]=$2;next} {if ($1 in k) {print k[$1] "\t" $2}}' - ${SexFile} >${ANALYSISDIR}/${Dataset}_SexFile.txt 
 
     # If sex for a sample is not provided in sexfile, or if --sexfile is not specified, PennCNV will try to predict the gender of the sample. It is highly recommended to provide a sexfile [saves time].
     # This command couples the full path of each individual input-file to sex with the following end-format:
@@ -298,7 +298,7 @@ fi
     # 	etc
  
 # b. Call CNVs on X-chromosome
-# singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list /analysisdir/${List_postQC}_adj --confidence -out /analysisdir/${Dataset}.X.raw  -log /analysisdir/${Dataset}.X.raw.log --chrx --sexfile /analysisdir/${Dataset}_SexFile.txt
+singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list /analysisdir/${List_postQC}_adj --confidence -out /analysisdir/${Dataset}.X.raw  -log /analysisdir/${Dataset}.X.raw.log --chrx --sexfile /analysisdir/${Dataset}_SexFile.txt
 	# --chrx		specifies that x-chromosome should be called
 	# --sexfile	provides the sexfile data for the calling
 
