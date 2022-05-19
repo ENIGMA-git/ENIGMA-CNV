@@ -1,0 +1,1 @@
+Short outline of smRI extraction script
