@@ -285,7 +285,7 @@ if(is.na(key_code)) {
 # QC files
 CNVs_QC <- cnv_noselect_key %>% 
   dplyr::filter(ID %in% postQC$ID) %>%
-  dplyr::full_join(., postQC)
+  dplyr::left_join(., postQC)
 #print(head(CNVs_QC))
 
 
@@ -581,15 +581,6 @@ print(head(cnv_noselect_50kb))
 
 cnv_noselect_50kb$ID <- RemoveAbsolutePath(cnv_noselect_50kb$ID)
 
-#### Plot single CNVs larger than 50 kb
-PlotCNVsFromDataFrame(DF=cnv_noselect_50kb,
-                      PathRawData=NA,
-                      Cores=1, Skip=0, PlotPosition=8, Pattern="",recursive=TRUE, dpi=300, # 1 is too little, 10 is a bit too much, trying with 8
-                      Files=Files,
-                      SNPList = PFBFile,
-                      key=key_code,
-                      OutFolder=singledir_50kb)
-
 # Save all CNVs >50kb to file (for curation)
 filename <- paste0(visualizedir, dataset, "_CNVcarriers50kb_precuration_", Overlapref, ".txt")
 if(is.na(key_code)) {
@@ -600,4 +591,14 @@ if(is.na(key_code)) {
   cnv_noselect_50kb_noID$File <- NULL # Removing File prior to saving to file
   write.table(cnv_noselect_50kb_noID, file  = filename, sep="\t", quote=FALSE, row.names = FALSE)
 }
+
+#### Plot single CNVs larger than 50 kb
+PlotCNVsFromDataFrame(DF=cnv_noselect_50kb,
+                      PathRawData=NA,
+                      Cores=1, Skip=0, PlotPosition=8, Pattern="",recursive=TRUE, dpi=300, # 1 is too little, 10 is a bit too much, trying with 8
+                      Files=Files,
+                      SNPList = PFBFile,
+                      key=key_code,
+                      OutFolder=singledir_50kb)
+
 
