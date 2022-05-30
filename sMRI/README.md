@@ -22,7 +22,7 @@ s1_optional_LGI.sh = creates measures of a local gyrification index for all part
 
 s1a_optional_LHItable.sh = extracts measures of local gyrification for each region of interest-based on the Desikan-Killiany atlas (Requires MATLAB). 
 
-4_merge_MR_data.sh = merges all of the files that are created above to one CSV file (requires R).
+3_merge_MR_data.sh = merges all of the files that are created above to one CSV file (requires R).
 
 FreeViewMe.sh = automatically loads the volumes orig.mgz and aparc+aseg.mgz files and the surface files for white and pial surface for manual inspection of the reconstruction for a specified subject.  
 
