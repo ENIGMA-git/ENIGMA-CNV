@@ -79,7 +79,7 @@ declare BAFLRRpresent="no" # USER-INPUT - only put "yes" if you have BAF-LRR-fil
 if [ $BAFLRRpresent = "yes" ]
     then
     declare LRRBAFDIR="/cluster/projects/p697/users/idaeson/CNVCalling/TOPMD/IlluminaFinalReport/" # USER-INPUT -  directory with PennCNV-inputfiles
-# NOTE - if the lrr-baf-folder has several subfolders with lrrbaf-files, the script will run into issues... Please contact the helpdesk
+# NOTE - if the lrr-baf-folder has several subfolders with lrrbaf-files, the script may run into issues... If so, please contact the helpdesk
     else
     mkdir ${ANALYSISDIR}/LRRBAF_Files/
 declare LRRBAFDIR="${ANALYSISDIR}/LRRBAF_Files/" # Note - this will place the PennCNV input files in a subfolder of  your ENIGMA-CNV analysis folder. These take up quite a lot of space - if you wish them to be placed elsewhere, write the full path of the wanted folder (USER-INPUT)
@@ -93,14 +93,14 @@ declare SexFile="${ANALYSISDIR}/SexFile.txt" # USER-INPUT - absolute path to you
 # If sex for a sample is not provided in sexfile, or if --sexfile is not specified, PennCNV will try to predict the gender of the sample. It is highly recommended to provide a sexfile [saves time].
 declare gendermissing="0" # USER-INPUT, number of individuals with gender missing in sexfile
 declare RelativeFile="${ANALYSISDIR}/DupsRelatives.txt" # USER-INPUT - absolute path to your relative-file
-declare KeepFile="${ANALYSISDIR}/KeepFile.txt" # USER-INPUT # absolute path to your KeepFile - leave empty if you do not have a KeepFile
-declare RemoveFile="${ANALYSISDIR}/RemoveFile.txt" # USER-INPUT # absolute path to your RemoveFile - leave empty if you do not have a RemoveFile
+declare KeepFile="${ANALYSISDIR}/KeepFile.txt" # USER-INPUT # absolute path to your KeepFile.txt - leave empty if you do not have a KeepFile
+declare RemoveFile="${ANALYSISDIR}/RemoveFile.txt" # USER-INPUT # absolute path to your RemoveFile.txt - leave empty if you do not have a RemoveFile
 
 ### c. Genotyping-chip dependent information - 
-declare HMMname="/opt/PennCNV-1.0.5/lib/hhall.hmm" # Please replace with the correct HMM-file. examples:  /opt/PennCNV-1.0.5/lib/hhall.hmm; for /opt/PennCNV-1.0.5/libhh550.hmm /opt/PennCNV-1.0.5/affy/libgw6/affygw6.hmm
+declare HMMname="/opt/PennCNV-1.0.5/lib/hhall.hmm" # USER-INPUT - Please replace with the correct HMM-file. examples:  /opt/PennCNV-1.0.5/lib/hhall.hmm; for /opt/PennCNV-1.0.5/libhh550.hmm /opt/PennCNV-1.0.5/affy/libgw6/affygw6.hmm
 
 # IF your dataset has more than 300 individuals, you can generate your own PFB-file based on the frequency in your dataset
-declare NoofIndividuals="" # e.g "1000" # No of individuals (e.g. "300") to be used for generating PFB-file and GCC-file (must be at least 200 individuals of good quality). Leave empty if you want to use all your individuals. The more individuals you use, the more precise the estimate becomes but the longer it will take to generate the PFB-model. For the NORMENT dataset, generating a PFB- and GCMODEL-file for the OmniExpress12v1.0 containing 730,525 markers using 1000 individuals took ~90 min on a Mac laptop with a 2.53 GHz Intel Core i5 processor and 4 GB of working memory
+declare NoofIndividuals="" # e.g "1000" # No of individuals (e.g. "300") to be used for generating PFB-file and GCC-file (must be at least 300 individuals of good quality). Leave empty if you want to use all your individuals. The more individuals you use, the more precise the estimate becomes but the longer it will take to generate the PFB-model. For the NORMENT dataset, generating a PFB- and GCMODEL-file for the OmniExpress12v1.0 containing 730,525 markers using 1000 individuals took ~90 min on a Mac laptop with a 2.53 GHz Intel Core i5 processor and 4 GB of working memory
 
 # IF your dataset contains less than 300 individuals, you need to use a generic version of the PFB-file. Please confer with the ENIGMA-CNV working group and put in the correct names of the files. # NOTE - IF more than 300 individuals, these files will be generated later and named "${Dataset}_${genomeversion}.pfb" (likewise for GCName)
 declare PFB="DeCodeGenetics_V1_20012591_A1_${genomeversion}" # ONLY USER-INPUT for those with <300 individuals -  replace with the correct PFB & GCMODEL (note without extensions) 
@@ -114,10 +114,10 @@ declare GCname="${PFB}.gcmodel" # no input
 # a. List of input and output-files from ENIGMA CNV calling protocol
 declare List_preQC="${Dataset}_ListofInputFiles_preQC.txt"
 declare List_postQC="${Dataset}_ListofInputFiles_postQC.txt"
-declare SOFTWAREDIR="${ANALYSISDIR}" # (enigmacnv.sif-placement) OBS - for the majority of cohorts this will be the ${ANALYSISDIR}. Can be replaced with absolut path, e.g. /cluster/projects/p697/users/idaeson/CNVCalling/software/"
+declare SOFTWAREDIR="${ANALYSISDIR}" # USER-INPUT (enigmacnv.sif-placement) OBS - for the majority of cohorts this will be the ${ANALYSISDIR}. Can be replaced with absolut path, e.g. /cluster/projects/p697/users/idaeson/CNVCalling/software/"
 
 # b. Cut-offs, autosomal chromosomes filtering
-declare LRR_SD=0.50 
+declare LRR_SD=0.40 
 declare BAF_drift=0.02 
 declare WF=0.05
 declare NoofSNPs=15
@@ -135,10 +135,14 @@ declare WF_X=0.99
 ### d. Parameters needed for visualization
 declare VISUALIZEDIR=${ANALYSISDIR}/${Dataset}_visualize/
 mkdir ${VISUALIZEDIR}
-declare CNVofInterestFile="ENIGMA-CNV_CNVsofInterest_${genomeversion}.csv" # appropriate CNVsofInterest-file for visualization (changes according to genome version)
+declare CNVofInterestFile="CNVsofInterest_ENIGMA-CNV_${genomeversion}.csv" # appropriate CNVsofInterest-file for visualization (changes according to genome version)
 Overlapref=0.3 # How large a proportion of the CNV is overlapping with the CNVofInterest? 
 OverlapMin=0.35 # Minimum overlap
 OverlapMax=5 # Maximum overlap
+
+### e. Output directories (to not clutter Analysis-dir)
+declare OUTDIR=${ANALYSISDIR}/${Dataset}_output/
+mkdir ${OUTDIR}
 
 ##################
 #### ANALYSIS ####
@@ -147,18 +151,18 @@ OverlapMax=5 # Maximum overlap
 ###########################
 ## The protocol in short ##
 ###########################
- 
+
 #### A. Generate input-files for PennCNV
 	## Step 1: Generate inputfiles from Illumina FinalReport files
 	## Step 2: Make a list of sample inputfiles for PennCNV
- 
+
 #### B. Select helper files
 	## Step 1. Select helper-files
- 
+
 #### C: Do CNV Calling
 	## Step 1: Call CNVs on autosomal chromosomes with GC-adjustment
 	## Step 2: Call CNVs on X-chromosome with GC-adjustment
- 
+
 #### D: First round of QC
 	## Step 1: QC on CNVs, 1st round. Obtain summary statistics
 	## Step 2. Merge CNVs
@@ -169,7 +173,7 @@ OverlapMax=5 # Maximum overlap
 #### E: Deidentification
 
 #### F: CNV visualization
- 
+
 #### G: Data transfer
 	## Step 1: Make folder for file-transfer
 
@@ -177,19 +181,19 @@ OverlapMax=5 # Maximum overlap
 ## A. Generate input-files for PennCNV ##
 #########################################
 
-############################################################### 
+###############################################################
 # Step 1: Generate inputfiles from Illumina FinalReport files #
 ###############################################################
- 
+
 # These steps convert the Illumina Report files into separate files for each individual with intensity data for each individual sample
-# if [ $BAFLRRpresent != "yes" ]
-# then
-# # a. Split IlluminaReport into one file for each individual sample
-# singularity exec --no-home -B ${ILLUMINAREPORTDIR}:/illuminadir -B ${LRRBAFDIR}:/lrrbafdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//split_illumina_report.pl --prefix /lrrbafdir/ /illuminadir/${IlluminaReport}
-# fi
-	#  "-prefix"	used to specify the prefix of the file name (in this case, save the file to the ${ANALYSISDIR}/LRRBAF_Files/-directory). 
+if [ $BAFLRRpresent != "yes" ]
+then
+# a. Split IlluminaReport into one file for each individual sample
+singularity exec --no-home -B ${ILLUMINAREPORTDIR}:/illuminadir -B ${LRRBAFDIR}:/lrrbafdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//split_illumina_report.pl --prefix /lrrbafdir/ /illuminadir/${IlluminaReport}
+fi
+	#  "-prefix"	used to specify the prefix of the file name (in this case, save the file to the ${ANALYSISDIR}/LRRBAF_Files/-directory).
 	#  "-comma"	can be added to the command in case the genotyping center provide the report file in comma-delimited format rather than tab-delimited format
- 
+
 	# Output of this file is a file for each individual named after the “Sample ID” field (e.g. NORMENT1) in the original IlluminaReport file with the following (tab-delimited) format:
 		# Name	NORMENT1.Log R Ratio	NORMENT1.B Allele Freq
 		# SNP1	-0.0038	0.0161
@@ -202,57 +206,58 @@ OverlapMax=5 # Maximum overlap
 ##########################################################
 
 # a. Generate a list-file with one individual on each line with the full path for its inputfile (i.e. the output from step1)
-find ${LRRBAFDIR} -type f -name '*' > ${List_preQC}
+find ${LRRBAFDIR} -type f -name '*' > ${OUTDIR}/${List_preQC}
 
 # b. Keep individuals based on your KeepFile.txt
 if [ -f "${KeepFile}" ] # If Keepfile exist
    then # keep only those samples
-		awk '{print $1,$1}' ${List_preQC} | awk -v postscript=${postscript} -v prescript=${prescript} '{gsub(/.+\//,"\/",$1); gsub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1];next} {if ($1 in k) {print $2} else {}}' ${KeepFile} -  >${List_postQC}
+		awk '{print $1,$1}' ${OUTDIR}/${List_preQC} | awk -v postscript=${postscript} -v prescript=${prescript} '{gsub(/.+\//,"\/",$1); gsub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1];next} {if ($1 in k) {print $2} else {}}' ${KeepFile} -  >${OUTDIR}/${List_postQC}
    else # keep everyone
-   cp ${List_preQC} ${List_postQC} 
+   cp ${OUTDIR}/${List_preQC} ${OUTDIR}/${List_postQC}
 fi
 
 # c. -and remove individuals based on your removefile
 if [ -f "$RemoveFile" ] # if Removefile exist
    then # Remove samples
-        	awk '{print $1,$1}' ${List_postQC} | awk -v postscript=${postscript} -v prescript=${prescript} '{gsub(/.+\//,"\/",$1); gsub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1];next} {if ($1 in k) {} else {print $2}}' ${RemoveFile} - >tmp
-	mv tmp ${List_postQC}
+        	awk '{print $1,$1}' ${OUTDIR}/${List_postQC} | awk -v postscript=${postscript} -v prescript=${prescript} '{gsub(/.+\//,"\/",$1); gsub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1];next} {if ($1 in k) {} else {print $2}}' ${RemoveFile} - >tmp
+	mv tmp ${OUTDIR}/${List_postQC}
 fi
 
 ## Change input-file list so it is compatible with containers
 
 # Adjust to make input for container
-cp ${ANALYSISDIR}/${List_postQC} ${ANALYSISDIR}/${List_postQC}_adj
-sed -i -e 's/.*\//\/lrrbafdir\//' ${ANALYSISDIR}/${List_postQC}_adj 
+cp ${OUTDIR}/${List_postQC} ${OUTDIR}/${List_postQC}_adj
+sed -i -e 's/.*\//\/lrrbafdir\//' ${OUTDIR}/${List_postQC}_adj
 # NOTE - if files come from several folders for lrr-baf-files, this command may run into issues... Please contact the helpdesk
 
 #######################################
 # Step 3: Generate PFB & GCMODEL-file #
 #######################################
 
-	# Description: The PFB-file (population frequency of B-allele file) supplies the PFB information for each marker, and gives the chromosome coordinates information to PennCNV for CNV calling. It is a tab-delimited text file with four columns, representing marker name, chromosome, position and PFB values. 
-	# The script compile_pfb_new.pl compiles a PFB file from multiple signal intensity files containing BAF values	 
+	# Description: The PFB-file (population frequency of B-allele file) supplies the PFB information for each marker, and gives the chromosome coordinates information to PennCNV for CNV calling. It is a tab-delimited text file with four columns, representing marker name, chromosome, position and PFB values.
+	# The script compile_pfb_new.pl compiles a PFB file from multiple signal intensity files containing BAF values
 	# The script cal_gc_snp.pl calculates GC content surrounding each marker within specified sliding window, using the UCSC GC annotation file.
 
-declare length_fileinput=`wc -l ${List_postQC} | awk '{print $1}'` # number of individuals in 
+declare length_fileinput=`wc -l ${OUTDIR}/${List_postQC} | awk '{print $1}'` # number of individuals in
 
-if [ ${length_fileinput} >299 ]
+if [ ${length_fileinput} -gt 299 ] # OBS - may need to exchange -gt with > (depending on your system)
 	then
+  echo "more than 299 individuals, a PFB-file for your dataset will be created"
 	declare PFBname="${Dataset}_${genomeversion}.pfb" # PFB-file
 	declare GCname="${Dataset}_${genomeversion}.gcmodel" # GC-model-file
 	declare List_Helperfiles="${Dataset}_ListofInputFiles_PFB.txt" # files used for input for PFB
-	
+
 	if [ -n "${NoofIndividuals}" ] ## variable exists and is not empty
 	then
-		echo "number of individuals used for generating PFB-file: ${NoofIndividuals}"	
+		echo "number of individuals used for generating PFB-file: ${NoofIndividuals}"
 	else
 		declare NoofIndividuals=${length_fileinput}
-		echo "number of individuals used for generating PFB-file: ${NoofIndividuals}"	
+		echo "number of individuals used for generating PFB-file: ${NoofIndividuals}"
 	fi
 		# a. Generate a list of x individuals randomly selected from your file
-		export NoofIndividuals; awk 'BEGIN {p=ENVIRON["NoofIndividuals"]; srand();} {a[NR]=$0} END{for(i=1; i<=p; i++){x=int(rand()*NR) + 1; print a[x]}}' ${ANALYSISDIR}/${List_postQC} >${ANALYSISDIR}/${List_Helperfiles}
+		export NoofIndividuals; awk 'BEGIN {p=ENVIRON["NoofIndividuals"]; srand();} {a[NR]=$0} END{for(i=1; i<=p; i++){x=int(rand()*NR) + 1; print a[x]}}' ${OUTDIR}//${List_postQC} >${OUTDIR}/${List_Helperfiles}
 		# b. Generation of PFB-file
-		perl compile_pfb_new.pl --listfile ${ANALYSISDIR}/${List_Helperfiles} -snpposfile ${ANALYSISDIR}/${SNPPosFile} --output ${ANALYSISDIR}/${PFBname}
+		perl compile_pfb_new.pl --listfile ${OUTDIR}/${List_Helperfiles} -snpposfile ${ANALYSISDIR}/${SNPPosFile} --output ${ANALYSISDIR}/${PFBname}
 
 			# --output <file>             specify output file (default: STDOUT)
 			# --snpposfile <file>         a file that contains Chr and Position for SNPs
@@ -261,10 +266,10 @@ if [ ${length_fileinput} >299 ]
 		# c. Generation of GC-model file
 		singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif cp /opt/PennCNV-1.0.5/gc_file/${genomeversion}.gc5Base.txt.gz /analysisdir/ # copy gcbase-file over from penncnv-dir to be able to unzip
 		gunzip ${ANALYSISDIR}/${genomeversion}.gc5Base.txt.gz
-		singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/cal_gc_snp.pl /analysisdir/${genomeversion}.gc5Base.txt /analysisdir/${PFBname} -output /analysisdir/${GCname}
+		singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/cal_gc_snp.pl /analysisdir/${genomeversion}.gc5Base.txt /analysisdir/${PFBname} -output /analysisdir/${GCname}
 		rm ${ANALYSISDIR}/${genomeversion}.gc5Base.txt
-else	
-	echo "less than 200 individuals, please choose a generic PFB-file after conferring with the ENIGMA-CNV working group"
+else
+	echo "less than 300 individuals, please choose a generic PFB-file after conferring with the ENIGMA-CNV working group"
 fi
 
 #######################
@@ -274,35 +279,36 @@ fi
 # Autosomal and X-chromosome CNVs are called separately
 
 ## Step 1: Call CNVs on autosomal chromosomes with GC-adjustment
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list /analysisdir/${List_postQC}_adj --confidence -out /analysisdir/${Dataset}.auto.raw  -log /analysisdir/${Dataset}.auto.raw.log 
-	# --test		tells the program to generate CNV calls 
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list outdir/${List_postQC}_adj --confidence -out outdir/${Dataset}.auto.raw  -log outdir/${Dataset}.auto.raw.log
+
+	# --test		tells the program to generate CNV calls
 	# --confidence	calculate confidence for each CNV
 	# --hmmfile and –pfbfile	provides the files for hmm- & pfb-files
 	# --gcmodel	implements a wave adjustment procedure for genomic waves which reduce false positive calls. It is recommended when if a large fraction of your samples have waviness factor (WF value) less than -0.04 or higher than 0.04
 	# -list		provides the file with the list of samples you want called
-	# –log		tells the program to write log information 
+	# –log		tells the program to write log information
 	# --out		raw cnvcalls for all input individuals
 
-# Note: This took ~48 hours to run for the MAS sample which comprises 925 individuals and 1,8 mio marker on the Affymetrix genomewide array 6.0-platform. 
+# Note: This took ~48 hours to run for the MAS sample which comprises 925 individuals and 1,8 mio marker on the Affymetrix genomewide array 6.0-platform.
 
- 
+
 ## Step 2: Call CNVs on X-chromosome with GC-adjustment
 
 # a. Make sex-file for your inputfile
-awk '{print $1,$1}' ${List_postQC}_adj | awk -v postscript=${postscript} -v prescript=${prescript} '{sub(/.+\//,"\/",$1); sub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1]=$2;next} {if ($1 in k) {print k[$1] "\t" $2}}' - ${SexFile} >${ANALYSISDIR}/${Dataset}_SexFile.txt 
+awk '{print $1,$1}' ${OUTDIR}${List_postQC}_adj | awk -v postscript=${postscript} -v prescript=${prescript} '{sub(/.+\//,"\/",$1); sub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1]=$2;next} {if ($1 in k) {print k[$1] "\t" $2}}' - ${SexFile} >${OUTDIR}/${Dataset}_SexFile.txt
 
     # If sex for a sample is not provided in sexfile, or if --sexfile is not specified, PennCNV will try to predict the gender of the sample. It is highly recommended to provide a sexfile [saves time].
     # This command couples the full path of each individual input-file to sex with the following end-format:
     # 	/Volumes/CNV_Calling/Analysis/PennCNV_InputFiles/TOP1	female
     # 	/Volumes/CNV_Calling/Analysis/PennCNV_InputFiles/TOP2	male
     # 	etc
- 
+
 # b. Call CNVs on X-chromosome
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list /analysisdir/${List_postQC}_adj --confidence -out /analysisdir/${Dataset}.X.raw  -log /analysisdir/${Dataset}.X.raw.log --chrx --sexfile /analysisdir/${Dataset}_SexFile.txt
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list outdir/${List_postQC}_adj --confidence -out outdir/${Dataset}.X.raw  -log outdir/${Dataset}.X.raw.log --chrx --sexfile outdir/${Dataset}_SexFile.txt
 	# --chrx		specifies that x-chromosome should be called
 	# --sexfile	provides the sexfile data for the calling
 
-# Note: This took ~48 hours to run for the MAS sample which comprises 925 individuals and 1,8 mio marker on the Affymetrix genomewide array 6.0-platform on a ??? specify computer etc... 
+# Note: This took ~48 hours to run for the MAS sample which comprises 925 individuals and 1,8 mio marker on the Affymetrix genomewide array 6.0-platform on a ??? specify computer etc...
 
 ######################
 ## D. Downstream QC ##
@@ -313,7 +319,7 @@ singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrba
 ###########
 
 # The raw CNV calls need to have calls from low quality samples eliminated and low quality calls need to be removed.
- 
+
 # AUTOSOMAL CNVs:
 # Step 1: QC on CNVs, 1st round. Obtain summary statistics
 # Step 2. Merge CNVs
@@ -342,46 +348,43 @@ singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrba
 # The filter_cnv.pl program identifies low-quality samples from a genotyping experiment and eliminates them from future analysis. This analysis requires the output LOG file from CNV calling in addition to the raw cnv-file.
 
 # a. obtain summary statistics for dataset
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir   ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl /analysisdir/${Dataset}.auto.raw --qclrrsd ${LRR_SD} --qcbafdrift ${BAF_drift} --qcwf ${WF} --numsnp ${NoofSNPs} --qclogfile /analysisdir/${Dataset}.auto.raw.log --qcpassout /analysisdir/${Dataset}.auto.passout --qcsumout /analysisdir/${Dataset}.auto.sumout --out /analysisdir/${Dataset}.auto.flr
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir   ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl outdir/${Dataset}.auto.raw --qclrrsd ${LRR_SD} --qcbafdrift ${BAF_drift} --qcwf ${WF} --numsnp ${NoofSNPs} --qclogfile outdir/${Dataset}.auto.raw.log --qcpassout outdir/${Dataset}.auto.passout --qcsumout outdir/${Dataset}.auto.sumout --out outdir/${Dataset}.auto.flr
 
 echo "Finished first filtering of autosomal CNVs"
 
 ######################
-# Step 2. Merge CNVs #
+# Step 2: Merge CNVs #
 ######################
 
-# PennCNV may tend to split CNVs into smaller parts. This step merges adjacent calls and  should be performed several times until no more CNVs are merged.
 
 # i. 1st time
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} /analysisdir/${Dataset}.auto.flr --output /analysisdir/${Dataset}.auto.flr_mrg1
-	# --signalfile	PFB gives universal definition for snp to chr pos and snp set used
-	# --bp		uses base pairs to calculate fraction (default: number of markers)
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.auto.flr --output outdir/${Dataset}.autosomal.flr_mrg1
 
 # ii. This command ensures that CNVs are getting merged until there are no more CNVs to merge within the defined distance
+{
 i=1
 while [ ${i} -lt 50 ]; do
 declare j=$(($i+1));
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} /analysisdir/${Dataset}.auto.flr_mrg${i} --output /analysisdir/${Dataset}.auto.flr_mrg${j}
-declare length1=`awk 'END {print NR}' ${ANALYSISDIR}/${Dataset}.auto.flr_mrg${i}`
-declare length2=`awk 'END {print NR}' ${ANALYSISDIR}/${Dataset}.auto.flr_mrg${j}`
-if [ ${length1} -eq ${length2} ]
-	then
-	cp ${ANALYSISDIR}${Dataset}.auto.flr_mrg${j} ${ANALYSISDIR}/${Dataset}.auto.flr_mrg_final
-	break;
-	fi
-	i=${j};
-done
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.autosomal.flr_mrg${i} --output outdir/${Dataset}.autosomal.flr_mrg${j}
 
+declare length1=`awk 'END {print NR}' ${OUTDIR}/${Dataset}.autosomal.flr_mrg${i}`
+declare length2=`awk 'END {print NR}' ${OUTDIR}/${Dataset}.autosomal.flr_mrg${j}`
+if [ ${length1} -eq ${length2} ]
+then
+cp ${OUTDIR}/${Dataset}.autosomal.flr_mrg${j} ${OUTDIR}/${Dataset}.auto.flr_mrg_final
+break;
+fi
+i=${j};
+done
+}
 echo "Finished merging of autosomal CNVs"
 
 # remove the resulting merging files
-if 
-	test -f "${ANALYSISDIR}/${Dataset}.auto.flr_mrg[0-9]"; then
-	rm ${ANALYSISDIR}/${Dataset}.auto.flr_mrg[0-9]
+if test -f "${OUTDIR}/${Dataset}.autosomal.flr_mrg[0-9]"; then
+	rm ${OUTDIR}/${Dataset}.auto.flr_mrg[0-9]
 fi
-if 
-	test -f "${ANALYSISDIR}/${Dataset}.auto.flr_mrg[0-9][0-9]"; then
-	rm ${ANALYSISDIR}/${Dataset}.auto.flr_mrg[0-9][0-9]
+if test -f "${OUTDIR}/${Dataset}.autosomal.flr_mrg[0-9][0-9]"; then
+	rm ${OUTDIR}/${Dataset}.auto.flr_mrg[0-9][0-9]
 fi
 
 #################################################################
@@ -393,21 +396,21 @@ fi
 
 # i. Identify CNVs with overlap to centromeric, telomeric, segmentalduplication and immunoglobulin regions
 for i in centro telo segmentaldups immuno;
-do 
-	singularity exec --no-home -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl /analysisdir/${Dataset}.auto.flr_mrg_final /analysisdir/${i}_hg38.txt -minqueryfrac ${MinQueryFrac} >${ANALYSISDIR}/${Dataset}.auto.${i};
+do
+	singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final outdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${outDIR}/${Dataset}.auto.${i};
 echo "${i} is done";
 done
 
-# b. Remove CNVs with overlap to spurious regions
+b. Remove CNVs with overlap to spurious regions
 
 # i. Make list
 for i in centro telo segmentaldups immuno;
-do 
-	cat ${ANALYSISDIR}/${Dataset}.auto.${i};
-done >${ANALYSISDIR}/${Dataset}_SpuriousCNVs_exclude
+do
+	cat ${OUTDIR}/${Dataset}.auto.${i};
+done >${OUTDIR}/${Dataset}_SpuriousCNVs_exclude
 
 # ii. Remove CNVs in spurious  regions
-grep -Fv -f ${ANALYSISDIR}/${Dataset}_SpuriousCNVs_exclude ${ANALYSISDIR}/${Dataset}.auto.flr_mrg_final >${ANALYSISDIR}/${Dataset}.auto.flr_mrg_spur
+grep -Fv -f ${OUTDIR}/${Dataset}_SpuriousCNVs_exclude ${OUTDIR}/${Dataset}.auto.flr_mrg_final >${OUTDIR}/${Dataset}.auto.flr_mrg_spur
 echo "Finished removal of spurious regions for autosomal CNVs"
 
 ##########################################################
@@ -415,7 +418,7 @@ echo "Finished removal of spurious regions for autosomal CNVs"
 ##########################################################
 
 # a. obtain summary statistics for dataset
-singularity exec --no-home -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl /analysisdir/${Dataset}.auto.flr_mrg_spur -qclrrsd ${LRR_SD} --qcbafdrift ${BAF_drift} --qcwf ${WF} -numsnp ${NoofSNPs} -qclogfile /analysisdir/${Dataset}.auto.raw.log -qcpassout analysisdir/${Dataset}.auto.passout_QC -qcsumout /analysisdir/${Dataset}.auto.sumout_QC -out /analysisdir/${Dataset}.auto.flr_QC
+singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl outdir/${Dataset}.auto.flr_mrg_spur -qclrrsd ${LRR_SD} --qcbafdrift ${BAF_drift} --qcwf ${WF} -numsnp ${NoofSNPs} --qclogfile outdir/${Dataset}.auto.raw.log --qcpassout outdir/${Dataset}.auto.passout_QC --qcsumout outdir/${Dataset}.auto.sumout_QC --out outdir/${Dataset}.auto.flr_QC
 
 #######################
 # X-chromosomal CNVs ##
@@ -426,7 +429,7 @@ singularity exec --no-home -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma
 ###########################################################
 
 # a. obtain summary statistics for dataset
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir   ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl /analysisdir/${Dataset}.X.raw --qclrrsd ${LRR_SD_X} --qcbafdrift ${BAF_drift_X} --qcwf ${WF_X} --numsnp ${NoofSNPs_X} --qclogfile /analysisdir/${Dataset}.X.raw.log --qcpassout /analysisdir/${Dataset}.X.passout --qcsumout /analysisdir/${Dataset}.X.sumout --out /analysisdir/${Dataset}.X.flr --chrx 
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir   ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl outdir/${Dataset}.X.raw --qclrrsd ${LRR_SD_X} --qcbafdrift ${BAF_drift_X} --qcwf ${WF_X} --numsnp ${NoofSNPs_X} --qclogfile outdir/${Dataset}.X.raw.log --qcpassout outdir/${Dataset}.X.passout --qcsumout outdir/${Dataset}.X.sumout --out outdir/${Dataset}.X.flr --chrx
 
 echo "Finished first filtering of X-chromosomal CNVs"
 
@@ -435,20 +438,20 @@ echo "Finished first filtering of X-chromosomal CNVs"
 ######################
 
 # i. 1st time
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} /analysisdir/${Dataset}.X.flr --output /analysisdir/${Dataset}.X.flr_mrg1
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.X.flr --output outdir/${Dataset}.X.flr_mrg1
 
 # ii. This command ensures that CNVs are getting merged until there are no more CNVs to merge within the defined distance
 {
 i=1
 while [ ${i} -lt 50 ]; do
 declare j=$(($i+1));
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} /analysisdir/${Dataset}.X.flr_mrg${i} --output /analysisdir/${Dataset}.X.flr_mrg${j}
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.X.flr_mrg${i} --output outdir/${Dataset}.X.flr_mrg${j}
 
-declare length1=`awk 'END {print NR}' ${ANALYSISDIR}/${Dataset}.X.flr_mrg${i}`
-declare length2=`awk 'END {print NR}' ${ANALYSISDIR}/${Dataset}.X.flr_mrg${j}`
+declare length1=`awk 'END {print NR}' ${OUTDIR}/${Dataset}.X.flr_mrg${i}`
+declare length2=`awk 'END {print NR}' ${OUTDIR}/${Dataset}.X.flr_mrg${j}`
 if [ ${length1} -eq ${length2} ]
 then
-cp ${ANALYSISDIR}/${Dataset}.X.flr_mrg${j} ${ANALYSISDIR}/${Dataset}.X.flr_mrg_final
+cp ${OUTDIR}/${Dataset}.X.flr_mrg${j} ${OUTDIR}/${Dataset}.X.flr_mrg_final
 break;
 fi
 i=${j};
@@ -457,11 +460,11 @@ done
 echo "Finished merging of X-chromosomal CNVs"
 
 # remove the resulting merging files
-if test -f "${ANALYSISDIR}/${DATASET}.X.flr_mrg[0-9]"; then
-	rm ${ANALYSISDIR}/${Dataset}.X.flr_mrg[0-9]
+if test -f "${OUTDIR}/${Dataset}.X.flr_mrg[0-9]"; then
+	rm ${OUTDIR}/${Dataset}.X.flr_mrg[0-9]
 fi
-if test -f "${ANALYSISDIR}/${DATASET}.X.flr_mrg[0-9][0-9]"; then
-	rm ${ANALYSISDIR}/${Dataset}.auto.flr_mrg[0-9][0-9]
+if test -f "${OUTDIR}/${Dataset}.X.flr_mrg[0-9][0-9]"; then
+	rm ${OUTDIR}/${Dataset}.X.flr_mrg[0-9][0-9]
 fi
 
 ###################################################################
@@ -475,7 +478,7 @@ fi
 # i. Identify CNVs with overlap to centromeric, telomeric and  segmentalduplication regions
 for i in centro telo segmentaldups immuno;
 do
-singularity exec --no-home -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl /analysisdir/${Dataset}.X.flr_mrg_final /analysisdir/${i}_hg38.txt -minqueryfrac ${MinQueryFrac} >${ANALYSISDIR}/${Dataset}.X.${i};
+singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.X.flr_mrg_final /analysisdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.X.${i};
 echo "${i} is done";
 done
 
@@ -483,11 +486,11 @@ done
 
 # i. Make list
 for i in centro telo segmentaldups immuno;
-do cat ${ANALYSISDIR}/${Dataset}.X.${i};
-done >${ANALYSISDIR}/${Dataset}.X_SpuriousCNVs_exclude
+do cat ${OUTDIR}/${Dataset}.X.${i};
+done >${OUTDIR}/${Dataset}.X_SpuriousCNVs_exclude
 
 # ii. Remove CNVs in spurious regions
-grep -Fv -f ${ANALYSISDIR}/${Dataset}.X_SpuriousCNVs_exclude ${ANALYSISDIR}/${Dataset}.X.flr_mrg_final >${ANALYSISDIR}/${Dataset}.X.flr_mrg_spur
+grep -Fv -f ${OUTDIR}/${Dataset}.X_SpuriousCNVs_exclude ${OUTDIR}/${Dataset}.X.flr_mrg_final >${OUTDIR}/${Dataset}.X.flr_mrg_spur
 echo "Finished removal of spurious regions for autosomal CNVs"
 
 ##########################################################
@@ -496,10 +499,10 @@ echo "Finished removal of spurious regions for autosomal CNVs"
 
 # a. Removing CNVs from the X-chr based on autosomal individual QC
 # Some individuals were removed in the autosomal QC -  the CNVs related to these should be removed from the X-chromosomal dataset before getting the final summary statistics.
-awk 'FNR==NR {a[$1]; next} {if ($5 in a) {print}}' ${ANALYSISDIR}/${Dataset}.auto.passout_QC ${ANALYSISDIR}/${Dataset}.X.flr_mrg_spur >${ANALYSISDIR}/${Dataset}.X.flr_mrg_spur_onlypass
+awk 'FNR==NR {a[$1]; next} {if ($5 in a) {print}}' ${OUTDIR}/${Dataset}.auto.passout_QC ${OUTDIR}/${Dataset}.X.flr_mrg_spur >${OUTDIR}/${Dataset}.X.flr_mrg_spur_onlypass
 
 # b. obtain summary statistics for dataset
-singularity exec --no-home -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl /analysisdir/${Dataset}.X.flr_mrg_spur_onlypass -qclrrsd ${LRR_SD_X} --qcbafdrift ${BAF_drift_X} --qcwf ${WF_X} -numsnp ${NoofSNPs_X} -qclogfile /analysisdir/${Dataset}.X.raw.log -qcpassout /analysisdir/${Dataset}.X.passout_QC -qcsumout /analysisdir/${Dataset}.X.sumout_QC -out /analysisdir/${Dataset}.X.flr_QC --chrx 
+singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl outdir/${Dataset}.X.flr_mrg_spur_onlypass -qclrrsd ${LRR_SD_X} --qcbafdrift ${BAF_drift_X} --qcwf ${WF_X} -numsnp ${NoofSNPs_X} -qclogfile outdir/${Dataset}.X.raw.log -qcpassout outdir/${Dataset}.X.passout_QC -qcsumout outdir/${Dataset}.X.sumout_QC -out outdir/${Dataset}.X.flr_QC --chrx
 
 ##########################
 ## BOTH AUTOSOMAL AND X ##
@@ -514,8 +517,8 @@ singularity exec --no-home -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma
 # a. Removing individuals
 for i in ${Dataset}.auto ${Dataset}.X;
 do
-	awk 'BEGIN {FS=OFS="\t"} FNR==NR {a[$1]; next} {if ($1=="File") {print}; if ($1 in a) {print}}' ${ANALYSISDIR}/${Dataset}.auto.passout_QC  ${ANALYSISDIR}/${i}.sumout_QC >${ANALYSISDIR}/${i}.sumout_QC_onlypass
-done; 
+	awk 'BEGIN {FS=OFS="\t"} FNR==NR {a[$1]; next} {if ($1=="File") {print}; if ($1 in a) {print}}' ${OUTDIR}/${Dataset}.auto.passout_QC  ${OUTDIR}/${i}.sumout_QC >${OUTDIR}/${i}.sumout_QC_onlypass
+done;
 
 
 ###########################
@@ -529,23 +532,23 @@ done;
 ############################
 
 # a. Make a deidentification key
-awk -v "name=$Dataset" 'BEGIN {OFS="\t"; i=0; print "ID_deidentified" OFS "File"} {i++; print name "_" i OFS $1}' ${List_postQC}_adj >${ANALYSISDIR}/${Dataset}_deidentifykey.txt
-declare Deidentify="${ANALYSISDIR}/${Dataset}_deidentifykey.txt"
+declare Deidentify="${OUTDIR}/${Dataset}_deidentifykey.txt"
+awk -v "name=$Dataset" 'BEGIN {OFS="\t"; i=0; print "ID_deidentified" OFS "File"} {i++; print name "_" i OFS $1}' ${OUTDIR}/${List_postQC}_adj >${Deidentify}
 
 # b. Duplicates and relative-lists
 awk -v postscript=${postscript} -v prescript=${prescript} 'BEGIN {OFS="\t"} {gsub(/.+\//,"\/",$2); gsub(/\//,"",$2); gsub(postscript,"",$2); gsub(prescript,"",$2); print}' ${Deidentify} | awk 'BEGIN {OFS="\t"} FNR==NR {a[$2]=$1; next} {if ($1 in a) {$1=a[$1]}; if ($2 in a) {$2=a[$2]}; print $0}' - ${RelativeFile}
- >${ANALYSISDIR}/${Dataset}_DupsRelatives_key.txt
+ >${OUTDIR}/${Dataset}_DupsRelatives_key.txt
 
 # c. Sexfile
-awk -v postscript=${postscript} -v prescript=${prescript} 'BEGIN {OFS="\t"} {gsub(/.+\//,"\/",$2); gsub(/\//,"",$2); gsub(postscript,"",$2); gsub(prescript,"",$2); print}' ${Deidentify} | awk 'BEGIN {OFS="\t"} FNR==NR {a[$2]=$1; next} {if ($1 in a) {$1=a[$1]}; print $0}' - ${SexFile} >${ANALYSISDIR}/${Dataset}_SexFile_key.txt
+awk -v postscript=${postscript} -v prescript=${prescript} 'BEGIN {OFS="\t"} {gsub(/.+\//,"\/",$2); gsub(/\//,"",$2); gsub(postscript,"",$2); gsub(prescript,"",$2); print}' ${Deidentify} | awk 'BEGIN {OFS="\t"} FNR==NR {a[$2]=$1; next} {if ($1 in a) {$1=a[$1]}; print $0}' - ${SexFile} >${OUTDIR}/${Dataset}_SexFile_key.txt
 
 if [ $deidentify = "YES" ]
 then
 # Copy deidentified files to visualization-folder
-	cp ${ANALYSISDIR}/${Dataset}_SexFile_key.txt ${VISUALIZEDIR}/${Dataset}_SexFile.txt
-	cp ${ANALYSISDIR}/${Dataset}_DupsRelatives_key.txt ${VISUALIZEDIR}/${Dataset}_DupsRelatives.txt
+	cp ${OUTDIR}/${Dataset}_SexFile_key.txt ${VISUALIZEDIR}/${Dataset}_SexFile.txt
+	cp ${OUTDIR}/${Dataset}_DupsRelatives_key.txt ${VISUALIZEDIR}/${Dataset}_DupsRelatives.txt
 else
-	cp ${ANALYSISDIR}/${Dataset}_SexFile.txt ${VISUALIZEDIR}/
+	cp ${OUTDIR}/${Dataset}_SexFile.txt ${VISUALIZEDIR}/
 	cp ${ANALYSISDIR}/DupsRelatives.txt ${VISUALIZEDIR}/${Dataset}_DupsRelatives.txt
 fi
 # Remaining deidentification will be done in the R-script
@@ -555,7 +558,7 @@ fi
 #############################################################
 
 # Running visualization-script
-singularity exec --no-home -B ${ANALYSISDIR}:/analysisdir  -B ${VISUALIZEDIR}:/visualize -B ${ANALYSISDIR}:/pfb -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif Rscript /analysisdir/ENIGMA-CNV_visualize_v1.R ${Dataset} ${PFBname} ${CNVofInterestFile} ${Overlapref} ${OverlapMin} ${OverlapMax} ${Chip} ${deidentify}
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  -B ${VISUALIZEDIR}:/visualize -B ${ANALYSISDIR}:/pfb -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif Rscript /analysisdir/ENIGMA-CNV_visualize_v1.R ${Dataset} ${PFBname} ${CNVofInterestFile} ${Overlapref} ${OverlapMin} ${OverlapMax} ${Chip} ${deidentify}
 
 
 ########################
@@ -588,12 +591,12 @@ ResponsiblePI\t${ResponsiblePI}
 Email,PI\t${Email_PI}
 AnalystName\t${Analyst}
 Email_Analyst\t${Email_Analyst}
-TimeforAnalysis\t${TIME} 
-Deidentification\t${deidentify}" 
+TimeforAnalysis\t${TIME}
+Deidentification\t${deidentify}"
 
 #  Info for calling
-awk 'END {print "Individuals_preQC\t" NR}' ${List_preQC}
-awk 'END {print "Individuals_postQC\t" NR}' ${List_postQC}
+awk 'END {print "Individuals_preQC\t" NR}' ${OUTDIR}/${List_preQC}
+awk 'END {print "Individuals_postQC\t" NR}' ${OUTDIR}/${List_postQC}
 
 # Generel info
 echo -e "Chip_name\t$Chip
@@ -605,32 +608,32 @@ No_of_individuals_with_gender_missing_in_sexfile\t$gendermissing"
 echo ""
 
 ### Autosomal
-awk 'END {print "Raw_dataset_Individuals_auto\t" NR-1}' ${ANALYSISDIR}/${Dataset}.auto.sumout # individuals in the raw dataset
-awk 'END {print "Filtered_dataset_Individuals_auto\t" NR}' ${ANALYSISDIR}/${Dataset}.auto.passout # individuals in the filtered dataset
-awk 'END {print "QCed_dataset_Individuals_auto\t" NR}' ${ANALYSISDIR}/${Dataset}.auto.passout_QC # individuals in the QCed dataset
-awk 'END {print "Raw_dataset_CNVs_auto\t" NR}' ${ANALYSISDIR}/${Dataset}.auto.raw # CNVs in the raw dataset
-awk 'END {print "Filtered_dataset_CNVs_auto\t" NR}' ${ANALYSISDIR}/${Dataset}.auto.flr # CNVs in the filtered dataset
-awk 'END {print "Filtered_and_merged_dataset_CNVs_auto\t" NR}' ${ANALYSISDIR}/${Dataset}.auto.flr_mrg_final  # CNVs in the filtered AND merged dataset
-awk 'END {print "Filtered_merged_and_removed_spurious_CNVs_dataset_CNVs_auto\t" NR}'  ${ANALYSISDIR}/${Dataset}.auto.flr_mrg_spur  # CNVs in the filtered and merged and removal of spurious CNVs dataset
-awk 'END {print "QCed_dataset_CNVs_auto\t" NR}' ${ANALYSISDIR}/${Dataset}.auto.flr_QC  # CNVs in qc’ed dataset
+awk 'END {print "Raw_dataset_Individuals_auto\t" NR-1}' ${OUTDIR}/${Dataset}.auto.sumout # individuals in the raw dataset
+awk 'END {print "Filtered_dataset_Individuals_auto\t" NR}' ${OUTDIR}/${Dataset}.auto.passout # individuals in the filtered dataset
+awk 'END {print "QCed_dataset_Individuals_auto\t" NR}' ${OUTDIR}/${Dataset}.auto.passout_QC # individuals in the QCed dataset
+awk 'END {print "Raw_dataset_CNVs_auto\t" NR}' ${OUTDIR}/${Dataset}.auto.raw # CNVs in the raw dataset
+awk 'END {print "Filtered_dataset_CNVs_auto\t" NR}' ${OUTDIR}/${Dataset}.auto.flr # CNVs in the filtered dataset
+awk 'END {print "Filtered_and_merged_dataset_CNVs_auto\t" NR}' ${OUTDIR}/${Dataset}.auto.flr_mrg_final  # CNVs in the filtered AND merged dataset
+awk 'END {print "Filtered_merged_and_removed_spurious_CNVs_dataset_CNVs_auto\t" NR}'  ${OUTDIR}/${Dataset}.auto.flr_mrg_spur  # CNVs in the filtered and merged and removal of spurious CNVs dataset
+awk 'END {print "QCed_dataset_CNVs_auto\t" NR}' ${OUTDIR}/${Dataset}.auto.flr_QC  # CNVs in qc’ed dataset
 echo ""
 
 ### X
 
-awk 'END {print "Raw_dataset_Individuals_X\t" NR-1}' ${ANALYSISDIR}/${Dataset}.X.sumout # Individuals in raw dataset
-awk 'END {print "Filtered_dataset_Individuals_X\t" NR}' ${ANALYSISDIR}/${Dataset}.X.passout # Individuals in the filtered dataset
-awk 'END {print "Removing_individuals_based_on_autosomal_QC_Individuals_X\t" NR-1}' ${ANALYSISDIR}/${Dataset}.X.sumout_QC_onlypass # Individuals in X after removing individuals removed in autosomal QC
-awk 'END {print "Raw_dataset_CNVs_X\t" NR}' ${ANALYSISDIR}/${Dataset}.X.raw # CNVs in the raw dataset
-awk 'END {print "Filtered_dataset_CNVs_X\t" NR}' ${Dataset}.X.flr  # CNVs in the filtered dataset
-awk 'END {print "Filtered_and_merged_dataset_CNVs_X\t" NR}' ${ANALYSISDIR}/${Dataset}.X.flr_mrg_final # CNVs in the filtered and merged dataset
-awk 'END {print "Filtered_merged_and_removed_spurious_CNVs_dataset_CNVs_X\t" NR}' ${ANALYSISDIR}/${Dataset}.X.flr_mrg_spur # CNVs in the filtered and merged and removal of spurious CNVs dataset
-awk 'END {print "Removing_individuals_based_on_autosomal_QC_CNVs_X\t" NR}' ${ANALYSISDIR}/${Dataset}.X.flr_mrg_spur_onlypass # CNVs in X after removing individuals removed in autosomal QC
-awk 'END {print "QCed_dataset_CNVs_X\t" NR}' ${ANALYSISDIR}/${Dataset}.X.flr_QC # CNVs in qc’ed dataset
+awk 'END {print "Raw_dataset_Individuals_X\t" NR-1}' ${OUTDIR}/${Dataset}.X.sumout # Individuals in raw dataset
+awk 'END {print "Filtered_dataset_Individuals_X\t" NR}' ${OUTDIR}/${Dataset}.X.passout # Individuals in the filtered dataset
+awk 'END {print "Removing_individuals_based_on_autosomal_QC_Individuals_X\t" NR-1}' ${OUTDIR}/${Dataset}.X.sumout_QC_onlypass # Individuals in X after removing individuals removed in autosomal QC
+awk 'END {print "Raw_dataset_CNVs_X\t" NR}' ${OUTDIR}/${Dataset}.X.raw # CNVs in the raw dataset
+awk 'END {print "Filtered_dataset_CNVs_X\t" NR}' ${OUTDIR}/${Dataset}.X.flr  # CNVs in the filtered dataset
+awk 'END {print "Filtered_and_merged_dataset_CNVs_X\t" NR}' ${OUTDIR}/${Dataset}.X.flr_mrg_final # CNVs in the filtered and merged dataset
+awk 'END {print "Filtered_merged_and_removed_spurious_CNVs_dataset_CNVs_X\t" NR}' ${OUTDIR}/${Dataset}.X.flr_mrg_spur # CNVs in the filtered and merged and removal of spurious CNVs dataset
+awk 'END {print "Removing_individuals_based_on_autosomal_QC_CNVs_X\t" NR}' ${OUTDIR}/${Dataset}.X.flr_mrg_spur_onlypass # CNVs in X after removing individuals removed in autosomal QC
+awk 'END {print "QCed_dataset_CNVs_X\t" NR}' ${OUTDIR}/${Dataset}.X.flr_QC # CNVs in qc’ed dataset
 echo "Please check that the above information/numbers make sense [e.g. the numbers of CNVs and/or individuals do not increase during QC]"
 #### CHECKPOINTS
 
 # Removal of nonpassed autosomal individuals
-awk 'END {print "Individuals_sumoutlists_nonpassedindividualsremoved_X\t" NR-1}' ${Dataset}.X.sumout_QC_onlypass
+awk 'END {print "Individuals_sumoutlists_nonpassedindividualsremoved_X\t" NR-1}' ${OUTDIR}/${Dataset}.X.sumout_QC_onlypass
 echo "The output should correspond to the number of individuals in the filtered autosomal dataset"
 
 ## Visualization-info
@@ -665,8 +668,8 @@ IDsVisualized\t${IDsVisualized}"
    # stackplots
 
 # Zip the visualization-folder for transfer
-rm ${VISUALIZEDIR}.tar.gz # remove previously zipped folder
-tar -zcvf ${VISUALIZEDIR}.tar.gz ${VISUALIZEDIR}
+rm ${ANALYSISDIR}/${Dataset}_visualize.tar.gz # remove previously zipped folder
+tar -zcvf ${ANALYSISDIR}/${Dataset}_visualize.tar.gz ${VISUALIZEDIR}
 
 
 
