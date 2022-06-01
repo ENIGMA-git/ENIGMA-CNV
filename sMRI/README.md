@@ -18,9 +18,11 @@ A brief overview of the shell scripts and their purposes are presented below:
 s0_optional_segmentation.sh 
 = segments the brainstem/hypothalamus/thalamic nuclei/amygdala/hippocampus and creates a .csv file for each region containing measures of volume of the segmented areas/subunits/subfields for all participants (Requires MATLAB runtime or MATLAB). 
 
+s0a_optional_seg_table.sh = creates a .csv file for each region containing measures of volume of the segmented areas/subunits/subfields for all participants
+
 s1_optional_LGI.sh = creates measures of a local gyrification index for all participants (Requires MATLAB).
 
-s1a_optional_LHItable.sh = extracts measures of local gyrification for each region of interest-based on the Desikan-Killiany atlas (Requires MATLAB). 
+s1a_optional_LGI_table.sh = extracts measures of local gyrification for each region of interest-based on the Desikan-Killiany atlas (Requires MATLAB). 
 
 3_merge_MR_data.sh = merges all of the files that are created above to one CSV file (requires R).
 
