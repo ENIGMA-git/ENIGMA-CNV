@@ -1,0 +1,12 @@
+Header]			
+BSGT Version    3.2.23			
+Processing Date 10/31/2008 11:42 AM			
+Content         sample.bpm			
+Num SNPs        45707			
+Total SNPs      45707			
+Num Samples     48			
+Total Samples   192			
+[Data]			
+SNP Name 	Sample ID	B Allele Freq	Log R Ratio
+Snp10000	Subject1	1.0000	-0.0558
+Snp20000	Subject2	1.0000	-0.0422

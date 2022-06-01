@@ -1,0 +1,3 @@
+SampleID	sex
+SampleID1	female
+SampleID2	male

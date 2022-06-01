@@ -1,0 +1,4 @@
+Name	testsample1.Log R Ratio	testsample1.B Allele Freq
+SNP1	-0.0038	0.0161
+SNP2	0.0073	0.9943
+rs10000023	-0.0307	0.0026
