@@ -664,7 +664,7 @@ IDsVisualized\t${IDsVisualized}"
    # stackplots
 
 # Zip the visualization-folder for transfer
-rm ${VISUALIZEDIR}.tar.gz # remove previously zipped folder
+rm ${ANALYSISDIR}/${Dataset}_visualize.tar.gz # remove previously zipped folder
 tar -zcvf ${ANALYSISDIR}/${Dataset}_visualize.tar.gz ${VISUALIZEDIR}
 
 
