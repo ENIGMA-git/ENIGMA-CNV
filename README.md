@@ -3,16 +3,16 @@ This repository contains protocols for CNV calling and sMRI processing for the E
 
 # Joining ENIGMA-CNV
 
-* A. Administrative – sign up for ENIGMA-CNV to the working group chairs.
+A. Administrative – sign up for ENIGMA-CNV to the working group chairs.
 
 Analysis and data submission:
-* B. Structural imaging data processing
+B. Structural imaging data processing
 - minimal protocol
 - extended protocol
-* C. CNVs
+C. CNVs
 - call and visualize
-* D. Covariates
-* E. Send data or request a secure transfer-link
+D. Covariates
+E. Send data or request a secure transfer-link
 
 Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
 
