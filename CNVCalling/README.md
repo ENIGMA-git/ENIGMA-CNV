@@ -33,11 +33,9 @@ Includes files with centromeric, telomeric, segmental duplications regions to be
 
 _0. CNV calling on autosomal and X-chromosomes_
 
--software: PennCNV
+Software: PennCNV
 
--PFB (population frequency file) and GC (GC content) model files are generated based on the input dataset if >300 individuals
-
--standard HMM-file
+PFB (population frequency file) and GC (GC content) model files are generated based on the input dataset if >300 individuals
 
 _1. Filtering QC_
 
