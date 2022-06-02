@@ -1,0 +1,3 @@
+﻿SubjID;GeneticID;PID;MID;DiseaseType;AffectionStatus;Affectionstatus2;Age;Sex;ScannerSite;;
+Subj1;A2035;A1003;A6008;Population;0;Healthy_bipolar;30.0;male;Oslo2;;
+Subj2;D1000;NA;NA;Population;1;Bipolar;35.5;female;Oslo2;;
