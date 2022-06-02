@@ -1,4 +1,8 @@
+# Description
+
 This folder containers examples on how files used in the ENIGMA-CNV CNV calling protocol should look.
+
+## Files
 
 "DatasetName_Covar_ENIGMACNV.csv"
 -example, a comma-delimited ENIGMA-CNV covariate file format (one line per individual in the dataset).
