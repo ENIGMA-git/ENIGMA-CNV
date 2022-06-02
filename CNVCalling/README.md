@@ -1,14 +1,27 @@
-Short outline of CNV-calling script:
+# Outline of CNV-calling scripts
 
-_0. CNV calling with PennCNV on autosomes and X-chr using PFB (population frequency file) and GC (GC content) model files generated based on the dataset if >300 individuals and standard HMM-file._
+Please follow the overall instructions in: "Instructions_ENIGMA-CNV-WG_v2.2.docx"
+Needed scripts:
+-ENIGMA-CNV_CNVProtocol_v2_docker.sh or ENIGMA-CNV_CNVProtocol_v2_singularity.sh (choose dependent on software container)
+
+ENIGMA-CNV_visualize_v1.R (for visualization)
+compile_pfb_new.pl (for compiling PFB)
+
+## General outline
+
+_0. CNV calling on autosomal and X-chromosomes_
+
+-software: PennCNV
+-self-generated PFB (population frequency file) and GC (GC content) model files are generated based on the input dataset if >300 individuals.
+-standard HMM-file
 
 _1. First filtering QC_
 
-QC-parameters (all can be easily adjusted, currentlys set at lenient values):
-LRR_SD=0.50. = Log R Ratio SD. 
+QC-parameters (all can be easily adjusted, currently set at lenient values):
+LRR_SD=0.40. = Log R Ratio standard deviation.
 BAF_drift=0.02. B Allelle frequency drift.
-WF=0.05. Wave factor. 
-NoofSNPs=15. 
+WF=0.05. Wave factor
+NoofSNPs=15
 
 _2. Merge CNVs_
 
@@ -34,9 +47,9 @@ All CNVs >50 kb are visualized with iPsychCNV PlotCNVsFromDataFrame.
 
 Other QC-parameters often used in CNV calling but not applied here:
 
--Call rate>0.95/0.97 
+-Call rate>0.95/0.97
 -No of CNVs/sample.
 
 _Software - enigma-cnv.sif singularity container_
 
-enigma-cnv.sif contains PennCNV and iPsychCNV (and all the necessary prerequisites) and was developed for use in ENIGMA-CNV by Bayram Akdeniz  (https://github.com/comorment/containers/blob/main/singularity/enigma-cnv.sif). 
+enigma-cnv.sif contains PennCNV and iPsychCNV (and all the necessary prerequisites) and was developed for use in ENIGMA-CNV by Bayram Akdeniz  (https://github.com/comorment/containers/blob/main/singularity/enigma-cnv.sif).
