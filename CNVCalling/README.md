@@ -65,9 +65,9 @@ MinQueryFrac =eg. 0.5. This indicates the minimum overlap of the region to the C
 
 _4. QC plots_
 
-* LRR_SD vs NumCNV*
-* WF vs NumCNV*
-* BAF_drift vs NumCNV*
+* LRR_SD vs NumCNV
+* WF vs NumCNV
+* BAF_drift vs NumCNV
 * Histograms pre/postQC of NumCNV, LRR_SD, BAF_drift, WF.
 
 _5. Visualization of CNVs of Interest and all CNVs>50kb_
