@@ -1,13 +1,14 @@
 # Outline of CNV-calling scripts
 
-Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_..
+Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
 
 Needed scripts:
--ENIGMA-CNV_CNVProtocol_v2_docker.sh or ENIGMA-CNV_CNVProtocol_v2_singularity.sh (choose dependent on software container)
 
--ENIGMA-CNV_visualize_v1.R (for visualization)
+<li>ENIGMA-CNV_CNVProtocol_v2_docker.sh or ENIGMA-CNV_CNVProtocol_v2_singularity.sh (choose dependent on software container)<li>
 
--compile_pfb_new.pl (for compiling PFB)
+<li>ENIGMA-CNV_visualize_v1.R (for visualization)<li>
+
+<li>compile_pfb_new.pl (for compiling PFB)<li>
 
 ## Folders and files
 
