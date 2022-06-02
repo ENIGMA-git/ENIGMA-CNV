@@ -298,9 +298,7 @@ QCdir <- paste0(visualizedir, "QCplots/")
 dir.create(QCdir)
 
 # LRR_SD vs NumCNV 
-#for (status in c("preQC", "postQC")) {
 plot <- QC_auto %>%
-  #        dplyr::filter(QCstatus == status) %>%
   ggplot(., mapping =aes(x=LRR_SD, y=NumCNV)) +
   geom_point() + 
   facet_wrap(~ QCstatus) +
@@ -310,7 +308,7 @@ plot <- QC_auto %>%
 
 filename <- paste0(QCdir, dataset, "_LRR_SD_vs_NumCNV.png") #_", status, ".png")
 ggsave(plot, file = filename)
-#}
+
 
 # WF vs NumCNV 
 plot <- QC_auto %>%
