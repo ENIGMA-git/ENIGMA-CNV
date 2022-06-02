@@ -6,8 +6,8 @@ Needed scripts:
 <ul>
 <li>ENIGMA-CNV_CNVProtocol_v2_docker.sh or ENIGMA-CNV_CNVProtocol_v2_singularity.sh (choose dependent on software container)<li>
 ENIGMA-CNV_visualize_v1.R (for visualization)<li>
-compile_pfb_new.pl (for compiling PFB)<li>
-</ul>
+compile_pfb_new.pl (for compiling PFB)<li></ul>
+
 ## Folders and files
 
 _containers_
@@ -43,14 +43,15 @@ _0. CNV calling on autosomal and X-chromosomes_
 _1. Filtering QC_
 
 QC-parameters (all can be easily adjusted, currently set at lenient values for ENIGMA-CNV):
-<li>LRR_SD=0.40 (Log R Ratio standard deviation).
-BAF_drift=0.02 (B Allelle frequency drift).
-WF=0.05 (Wave factor).
-NoofSNPs=15 (no of SNPs).<li>
+<ul><li>LRR_SD=0.40 (Log R Ratio standard deviation).<li>
+<li>BAF_drift=0.02 (B Allelle frequency drift).<li>
+<li>WF=0.05 (Wave factor).<li>
+<li>NoofSNPs=15 (no of SNPs).<li></ul>
 
 Note: Other QC-parameters often used in CNV calling but not applied here:
+<ul><li>LRR_SD=0.40 (Log R Ratio standard deviation).<li>
 <li>Call rate>0.95/0.97.<li>
-<li>No of CNVs/sample.<li>
+<li>No of CNVs/sample.<li></ul>
 
 _2. Merge CNVs_
 
@@ -66,10 +67,10 @@ MinQueryFrac =eg. 0.5. This indicates the minimum overlap of the region to the C
 
 _4. QC plots_
 
-<li>LRR_SD vs NumCNV
-WF vs NumCNV
-BAF_drift vs NumCNV
-Histograms pre/postQC of NumCNV, LRR_SD, BAF_drift, WF.<li>
+<ul><li>LRR_SD vs NumCNV<li>
+<li>WF vs NumCNV<li>
+<li>BAF_drift vs NumCNV<li>
+<li>Histograms pre/postQC of NumCNV, LRR_SD, BAF_drift, WF.<li></ul>
 
 _5. Visualization of CNVs of Interest and all CNVs>50kb_
 
