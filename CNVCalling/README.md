@@ -13,11 +13,11 @@ Needed scripts:
 
 _containers_
 
-enigma-cnv.sif (singularity) and enigma-cnv:latest (docker) contains PennCNV and iPsychCNV (and all the necessary prerequisites) and was developed for use in ENIGMA-CNV by Bayram Akdeniz  (https://github.com/comorment/containers/blob/main/singularity/enigma-cnv.sif).
+enigma-cnv.sif (singularity) and enigma-cnv:latest (docker) are software containers containing PennCNV and iPsychCNV (and all the necessary prerequisites) and were developed for use in ENIGMA-CNV by Bayram Akdeniz  (https://github.com/comorment/containers/blob/main/singularity/enigma-cnv.sif).
 
 _CNVsofInterests_
 
-Includes files with 93 recurrent CNVs (Kendall et al 2017,  DOI: 10.1016/j.biopsych.2016.08.014) in genomeversion hg18, hg19 or hg38 to be used in visualization.
+Includes files with 93 recurrent CNVs (Kendall et al 2017,  DOI: 10.1016/j.biopsych.2016.08.014) in genome version hg18, hg19 or hg38 to be used in visualization.
 
 _PFBGCMODELHMM_
 
@@ -31,7 +31,7 @@ _filtergenomeregions_
 
 Includes files with centromeric, telomeric, segmental duplications regions to be used in filtering of CNVs.
 
-## General outline
+## General outline of procedure/scripts
 
 _0. CNV calling on autosomal and X-chromosomes_
 
@@ -43,7 +43,7 @@ _0. CNV calling on autosomal and X-chromosomes_
 
 _1. Filtering QC_
 
-QC-parameters (all can be easily adjusted, currently set at lenient values):
+QC-parameters (all can be easily adjusted, currently set at lenient values for ENIGMA-CNV):
 LRR_SD=0.40 (Log R Ratio standard deviation).
 
 BAF_drift=0.02 (B Allelle frequency drift).
@@ -78,7 +78,7 @@ WF vs NumCNV
 
 BAF_drift vs NumCNV
 
-Histograms post/preQC of NumCNV, LRR_SD, BAF_drift, WF.
+Histograms pre/postQC of NumCNV, LRR_SD, BAF_drift, WF.
 
 _5. Visualization of CNVs of Interest and all CNVs>50kb_
 
