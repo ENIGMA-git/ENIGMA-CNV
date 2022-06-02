@@ -1,5 +1,4 @@
-The following scripts includes original scripts and modified from the ENIGMA imaging protocols (https://enigma.ini.usc.edu/protocols/imaging-protocols/). 
-To run the  
+The following scripts includes original scripts and modified from the ENIGMA imaging protocols (https://enigma.ini.usc.edu/protocols/imaging-protocols/).
 
 A brief overview of the shell scripts and their purposes are presented below: 
 
