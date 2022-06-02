@@ -1,6 +1,6 @@
 The following scripts includes original scripts and modified scripts from the ENIGMA imaging protocols (https://enigma.ini.usc.edu/protocols/imaging-protocols/).
 
-##Brief overview of the shell scripts and their purposes:
+## Brief overview of the shell scripts and their purposes:
 
 _0_organize_data.sh_
 
