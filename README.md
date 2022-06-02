@@ -5,6 +5,11 @@ This repository contains protocols for CNV calling and sMRI processing for the E
 
 Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
 
+It may be beneficial to clone this entire repository using ``git clone.``
+```
+git clone https://github.com/ENIGMA-git/ENIGMA-CNV/
+```
+
 **Tasks**
 
 A. Administrative – sign up for ENIGMA-CNV to the working group chairs.
@@ -25,10 +30,6 @@ D. Covariates
 E. Send data
 
 
-It may be beneficial to clone this entire repository using ``git clone.``
-```
-git clone https://github.com/ENIGMA-git/ENIGMA-CNV/
-```
 
 ## CNV calling
 This folder includes easy-to-use scripts for calling and filtering CNVs with PennCNV (Wang et al 2007, DOI: 10.1101/gr.6861907) and visualizion of CNVs of interest with iPsychCNV (https://github.com/mbertalan/iPsychCNV/).
