@@ -12,7 +12,7 @@ _1_enigma_runfreesurfer.sh_
 
 _1a_enigma_runfreesurfer_loop.sh_
 
-Runs the recon-all function on all subjects.
+* Runs the recon-all function on all subjects.
 
 _2_extractmeasures_mri.sh_
 
