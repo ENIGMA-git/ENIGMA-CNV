@@ -343,8 +343,7 @@ plot <- QC_auto %>%
   ggplot(., mapping=aes(x=NumCNV)) + 
   geom_histogram() +
   facet_wrap(~ QCstatus) +
-  ggtitle("NumCNV, pre- & postQC") #+ 
-#        ylim(0, 500)
+  ggtitle("NumCNV, pre- & postQC") 
 filename <- paste0(QCdir, dataset, "_NumCNV_prepostQC_hist.png")
 ggsave(plot, file=filename)
 
@@ -362,8 +361,7 @@ plot <- QC_auto %>%
   ggplot(., mapping=aes(x=LRR_SD)) +
   geom_histogram() +
   facet_wrap(~ QCstatus) +
-  ggtitle("LRR_SD, pre- & postQC") +
-  ylim(0,500)
+  ggtitle("LRR_SD, pre- & postQC") 
 filename <- paste0(QCdir, dataset, "_LRR_SD_prepostQC_hist.png")
 ggsave(plot, file=filename)
 
@@ -372,8 +370,7 @@ plot <- QC_auto %>%
   ggplot(., mapping=aes(x=BAF_drift)) +
   geom_histogram() +
   facet_wrap(~ QCstatus) +
-  ggtitle("BAF_drift, pre- & postQC") +
-  ylim(0,500)
+  ggtitle("BAF_drift, pre- & postQC") 
 filename <- paste0(QCdir, dataset, "_BAF_drift_prepostQC_hist.png")
 ggsave(plot, file=filename)
 
