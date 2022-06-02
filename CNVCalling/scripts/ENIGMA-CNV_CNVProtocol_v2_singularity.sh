@@ -12,18 +12,17 @@ module load singularity/3.8.5 # USER-INPUT - modify according to your version of
 date=$(date +%y%m%d)
 START=$(date +%s)
 
-#: Document: ENIGMA-CNV_CNVProtocol_v2.sh
+#: Document: ENIGMA-CNV_CNVProtocol_v2_singularity.sh
 #: Title: ENIGMA CNV Working group – standardized protocol for calling and filtering CNVs
 #: Purpose: 
 	# Call raw CNVs on Illumina samples and Affymetrix samples [the latter needs preprocessing first] 
-		# For Affymetrix, please refer to the script: "ENIGMA-CNV_AffyPrep_Protocol_v2.sh" 
 	# Filtering of raw CNVs
 	# Visualization of selected CNVs of Interest and CNVs>50kb
 # Date, v1: 2015-07-06
 # Date, v2: 2022-02
 # Authors, v1: Ida Elken Sønderby, Omar Gustafsson. Input and tested by Allan McRae and Nicola Armstrong
 # Versions: v1.1. Minor bugs # v1.2: Changed the protocol so that it can be run as a bash-script. Implemented Rscripts for downstream filtering of spurious CNVs # v1.3: Changed incorporation of keep and remove-file
-# Authors, v2: Ida Elken Sønderby. Input and test by ????
+# Authors, v2: Ida Elken Sønderby.
 # v2.0: Altered to use software containers, included visualization in script
 
 ################################
@@ -38,14 +37,14 @@ START=$(date +%s)
 # - adjust the names and directory-instructions in the script itself as directed in 0a below [labeled USER-INPUT needed].
 
 # 2. Run the script:
-    # a. Prior to this, you may need to change file permission in terminal: chmod +u+x ${Dataset}_ENIGMA_CNV_CNVProtocol_v2.sh
-    # b. Run script in terminal: bash ./${Dataset}_ENIGMA_CNV_CNVProtocol_v2.sh
+    # a. Prior to this, you may need to change file permission in terminal: chmod +u+x ${Dataset}_ENIGMA_CNV_CNVProtocol_v2_singularity.sh
+    # b. Run script in terminal: bash ./${Dataset}_ENIGMA_CNV_CNVProtocol_v2_singularity.sh
 
 # 3. After the run, the printed log will be present in the Analysis-folder: ENIGMA-CNV_logfile.txt (in case something goes wrong, you can hopefully retrack it from here, please check for error-messages)
 
-# 4. After, the run, please check the checklist found in ${Dataset}_checklist.txt to see if things make sense.
+# 4. After, the run, please check the checklist found in ${Dataset}_visualize/${Dataset}_checklist.txt to see if things make sense.
 
-# 5. Please, send the compressed files in the ${Dataset}_visualize.tar.gz-folder to: enigmacnvhelpdesk@gmail.com
+# 5. Please, send the compressed files in the Analysisdir: ${Dataset}_visualize.tar.gz-folder to: enigmacnvhelpdesk@gmail.com
 
 # Please address any questions to: enigmacnvhelpdesk@gmail.com
 
@@ -54,7 +53,7 @@ START=$(date +%s)
 ##################################################
 
 # General info
-declare Dataset="TOPMD" # Replace TOPMD with the name of your dataset
+declare Dataset="test" # Replace TOPMD with the name of your dataset
 declare ResponsiblePI="OleAndreassen" # Replace OleAndreassen with the name of the PI [no spaces, please]
 declare Email_PI="o.a.andreassen@medisin.uio.no" # Replace o.a.andreassen@medisin.uio.no with the e-mail of your PI to enable us to contact the PI directly in case of questions.
 declare Analyst="IdaSoenderby" # Replace IdaSoenderby with the name of the analyst [no spaces, please]
@@ -114,7 +113,7 @@ declare GCname="${PFB}.gcmodel" # no input
 # a. List of input and output-files from ENIGMA CNV calling protocol
 declare List_preQC="${Dataset}_ListofInputFiles_preQC.txt"
 declare List_postQC="${Dataset}_ListofInputFiles_postQC.txt"
-declare SOFTWAREDIR="${ANALYSISDIR}" # USER-INPUT (enigmacnv.sif-placement) OBS - for the majority of cohorts this will be the ${ANALYSISDIR}. Can be replaced with absolut path, e.g. /cluster/projects/p697/users/idaeson/CNVCalling/software/"
+declare SOFTWAREDIR="${ANALYSISDIR}" # USER-INPUT (enigmacnv.sif-placement) OBS - for the majority of cohorts this will be the ${ANALYSISDIR}. Can be replaced with absolute path, e.g. /cluster/projects/p697/users/idaeson/CNVCalling/software/"
 
 # b. Cut-offs, autosomal chromosomes filtering
 declare LRR_SD=0.40 
