@@ -1,55 +1,87 @@
 # Outline of CNV-calling scripts
 
-Please follow the overall instructions in: "Instructions_ENIGMA-CNV-WG_v2.2.docx"
+Please follow the overall instructions in: "Instructions_ENIGMA-CNV-WG_v2.2.docx".
+
 Needed scripts:
 -ENIGMA-CNV_CNVProtocol_v2_docker.sh or ENIGMA-CNV_CNVProtocol_v2_singularity.sh (choose dependent on software container)
 
-ENIGMA-CNV_visualize_v1.R (for visualization)
-compile_pfb_new.pl (for compiling PFB)
+-ENIGMA-CNV_visualize_v1.R (for visualization)
+
+-compile_pfb_new.pl (for compiling PFB)
+
+## Folders and files
+
+_containers_
+
+enigma-cnv.sif (singularity) and enigma-cnv:latest (docker) contains PennCNV and iPsychCNV (and all the necessary prerequisites) and was developed for use in ENIGMA-CNV by Bayram Akdeniz  (https://github.com/comorment/containers/blob/main/singularity/enigma-cnv.sif).
+
+_CNVsofInterests_
+
+Includes files with 93 recurrent CNVs (Kendall et al 2017,  DOI: 10.1016/j.biopsych.2016.08.014) in genomeversion hg18, hg19 or hg38 to be used in visualization.
+
+_PFBGCMODELHMM_
+
+Includes the hidden markov files used in CNV-calling
+
+_examplefiles_
+
+Includes examples of the formats of files used in CNV calling.
+
+_filtergenomeregions_
+
+Includes files with centromeric, telomeric, segmental duplications regions to be used in filtering of CNVs.
 
 ## General outline
 
 _0. CNV calling on autosomal and X-chromosomes_
 
 -software: PennCNV
--self-generated PFB (population frequency file) and GC (GC content) model files are generated based on the input dataset if >300 individuals.
+
+-PFB (population frequency file) and GC (GC content) model files are generated based on the input dataset if >300 individuals
+
 -standard HMM-file
 
-_1. First filtering QC_
+_1. Filtering QC_
 
 QC-parameters (all can be easily adjusted, currently set at lenient values):
-LRR_SD=0.40. = Log R Ratio standard deviation.
-BAF_drift=0.02. B Allelle frequency drift.
-WF=0.05. Wave factor
-NoofSNPs=15
+LRR_SD=0.40 (Log R Ratio standard deviation).
 
-_2. Merge CNVs_
+BAF_drift=0.02 (B Allelle frequency drift).
 
-PennCNV tends to split CNVs into smaller parts.
-MergeFraction set at 0.3 = indicates the distance (in bp or snps) for when merging is done. Often need to be adjusted according to the the number of SNPs and distance between SNPs on the chip in question.
+WF=0.05 (Wave factor).
 
-_3. Remove CNVs from specific genomic regions (centromeric, telomeric, segmental duplications and immunoglobulin regions)_
+NoofSNPs=15 (no of SNPs).
 
-These regions are known to harbor spurious CNV calls that might represent cell-line artifacts.
-MinQueryFrac (eg. 0.5) indicates the minimum overlap of the region to the CNV for removal.
 
-_4. QC plots_
-
-NumCNV vs LRR_SD, BAF_drift, WF
-Histograms post/preQC of NumCNV, LRR_SD, BAF_drift, WF
-
-_5. Visualization of CNVs of Interest and all CNVs>50kb with iPsychCNV_
-
-Log R Ratio (LRR) and B-allele Frequency (BAF) along the chromosome
-CNVs of Interest can be selected by the user but currently consists of:
--93 recurrent CNVs (Kendall et al 2017,  DOI: 10.1016/j.biopsych.2016.08.014) in hg18, hg19 or hg38 through iPsychCNV Stackplot (Stackplot allows you to easily compare LRR-BAG plots with individuals not predicted to carry the CNV in question).
-All CNVs >50 kb are visualized with iPsychCNV PlotCNVsFromDataFrame.
-
-Other QC-parameters often used in CNV calling but not applied here:
+Note: Other QC-parameters often used in CNV calling but not applied here:
 
 -Call rate>0.95/0.97
 -No of CNVs/sample.
 
-_Software - enigma-cnv.sif singularity container_
+_2. Merge CNVs_
 
-enigma-cnv.sif contains PennCNV and iPsychCNV (and all the necessary prerequisites) and was developed for use in ENIGMA-CNV by Bayram Akdeniz  (https://github.com/comorment/containers/blob/main/singularity/enigma-cnv.sif).
+PennCNV tends to split CNVs into smaller parts.
+
+MergeFraction = 0.3. This indicates the distance (in this case in bp) for when merging is done. This often needs to be adjusted according to the the number of SNPs and distance between SNPs on the chip in question.
+
+_3. Remove CNVs from specific genomic regions (centromeric, telomeric, segmental duplications and immunoglobulin regions)_
+
+These regions are known to harbor spurious CNV calls that might represent cell-line artifacts.
+
+MinQueryFrac =eg. 0.5. This indicates the minimum overlap of the region to the CNV for removal.
+
+_4. QC plots_
+
+LRR_SD vs NumCNV
+
+WF vs NumCNV
+
+BAF_drift vs NumCNV
+
+Histograms post/preQC of NumCNV, LRR_SD, BAF_drift, WF.
+
+_5. Visualization of CNVs of Interest and all CNVs>50kb_
+
+Your CNVs of Interests are visualized in Log R Ratio (LRR) and B-allele Frequency (BAF) plots applying iPsychCNV Stackplot (Stackplot allows you to easily compare LRR-BAF plots with individuals not predicted to carry the CNV in question).
+
+All CNVs >50 kb are visualized with iPsychCNV PlotCNVsFromDataFrame.
