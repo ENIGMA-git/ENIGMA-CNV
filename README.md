@@ -1,7 +1,7 @@
 # Description, ENIGMA-CNV
 This repository contains protocols for CNV calling and sMRI processing for the ENIGMA-CNV working group.
 
-# Joining ENIGMA-CNV
+## Joining ENIGMA-CNV
 
 A. Administrative – sign up for ENIGMA-CNV to the working group chairs.
 
@@ -28,14 +28,14 @@ It may be beneficial to clone this entire repository using ``git clone.``
 git clone https://github.com/ENIGMA-git/ENIGMA-CNV/
 ```
 
-# CNV calling
+## CNV calling
 This folder includes easy-to-use scripts for calling and filtering CNVs with PennCNV (Wang et al 2007, DOI: 10.1101/gr.6861907) and visualizion of CNVs of interest with iPsychCNV (https://github.com/mbertalan/iPsychCNV/).
 
 The software (PennCNV and iPsych CNV with dependencies) is packaged in docker and singularity containers, respectively, to run independently of operating system.
 
 Helper-files for the purpose includes a list of 93 CNVs of Interest (based on Kendall et al 2017,  DOI: 10.1016/j.biopsych.2016.08.014) in genome version hg18, hg19 and hg38.
 
-# sMRI processing
+## sMRI processing
 This folder includes easy-to-use scripts and software for extracting structural brain measures as derived from FreeSurfer. This also includes processing and extracting data from the brainstem, hypothalamus, hippocampus, amygdala and thalamic nuclei.
 
 The structural brain measures include cortical thickness, surface area, cortical volume, subcortical volume, mean curvature, gaussian curvature, fold index, curvature index, local gyrification index.
