@@ -3,6 +3,10 @@ This repository contains protocols for CNV calling and sMRI processing for the E
 
 ## Joining ENIGMA-CNV
 
+Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
+
+Briefly, these include these tasks:
+
 A. Administrative – sign up for ENIGMA-CNV to the working group chairs.
 
 Analysis and data submission:
@@ -18,10 +22,7 @@ C. CNVs
 
 D. Covariates
 
-E. Send data or request a secure transfer-link
-
-
-Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
+E. Send data
 
 It may be beneficial to clone this entire repository using ``git clone.``
 ```
