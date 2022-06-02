@@ -3,9 +3,9 @@
 Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
 
 Needed scripts:
-* ENIGMA-CNV_CNVProtocol_v2_docker.sh or ENIGMA-CNV_CNVProtocol_v2_singularity.sh (choose dependent on software container)
-* ENIGMA-CNV_visualize_v1.R (for visualization)
-* compile_pfb_new.pl (for compiling PFB)
+* _ENIGMA-CNV_CNVProtocol_v2_docker.sh_ or _ENIGMA-CNV_CNVProtocol_v2_singularity.sh_ (choose dependent on software container)
+* _ENIGMA-CNV_visualize_v1.R_ (for visualization)
+* _compile_pfb_new.pl_ (for compiling PFB)
 
 ## Folders and files
 
@@ -29,15 +29,13 @@ _filtergenomeregions_
 
 Includes files with centromeric, telomeric, segmental duplications regions to be used in filtering of CNVs.
 
-## General outline of procedure/scripts
+# General outline of procedure/scripts
 
 _0. CNV calling on autosomal and X-chromosomes_
 
--software: PennCNV
+Software: PennCNV
 
--PFB (population frequency file) and GC (GC content) model files are generated based on the input dataset if >300 individuals
-
--standard HMM-file
+PFB (population frequency file) and GC (GC content) model files are generated based on the input dataset if >300 individuals
 
 _1. Filtering QC_
 
