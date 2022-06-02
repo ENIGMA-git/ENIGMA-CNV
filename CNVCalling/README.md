@@ -3,9 +3,9 @@
 Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
 
 Needed scripts:
-* ENIGMA-CNV_CNVProtocol_v2_docker.sh or ENIGMA-CNV_CNVProtocol_v2_singularity.sh (choose dependent on software container)
-* ENIGMA-CNV_visualize_v1.R (for visualization)
-* compile_pfb_new.pl (for compiling PFB)
+* _ENIGMA-CNV_CNVProtocol_v2_docker.sh_ or _ENIGMA-CNV_CNVProtocol_v2_singularity.sh_ (choose dependent on software container)
+* _ENIGMA-CNV_visualize_v1.R_ (for visualization)
+* _compile_pfb_new.pl_ (for compiling PFB)
 
 ## Folders and files
 
