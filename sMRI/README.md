@@ -44,4 +44,4 @@ _FreeViewMe.sh_
 
 _RunFreeSurferDocker.sh_
 
-Calls the dockerized FreeSurfer v7.2.0 package. Will run the optional segmentation analyses as these may not be available in older FreeSurfer versions (e.g., < v6) or does not work due to mac version (problems reported with macOS Big Sur).   
+* Calls the dockerized FreeSurfer v7.2.0 package. Will run the optional segmentation analyses as these may not be available in older FreeSurfer versions (e.g., < v6) or does not work due to mac version (problems reported with macOS Big Sur).   
