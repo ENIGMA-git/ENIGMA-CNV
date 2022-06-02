@@ -29,7 +29,7 @@ _filtergenomeregions_
 
 Includes files with centromeric, telomeric, segmental duplications regions to be used in filtering of CNVs.
 
-## General outline of procedure/scripts
+# General outline of procedure/scripts
 
 _0. CNV calling on autosomal and X-chromosomes_
 
