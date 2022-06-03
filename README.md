@@ -1,5 +1,5 @@
 # Description, ENIGMA-CNV
-This repository contains protocols for CNV calling and sMRI processing for the ENIGMA-CNV working group.
+This repository contains protocols for CNV calling and sMRI processing for the ENIGMA-CNV working group .
 
 ## Joining ENIGMA-CNV
 
