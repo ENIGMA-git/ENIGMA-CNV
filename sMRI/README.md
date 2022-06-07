@@ -1,8 +1,12 @@
 # Outline
 
+This folder includes easy-to-use scripts and software for extracting structural brain measures as derived from FreeSurfer as well as processing and extracting data from the brainstem, hypothalamus, hippocampus, amygdala and thalamic nuclei. 
+
 Please follow the overall instructions in: _ENIGMA-CNV_sMRIProtocol.pdf_.
 
-The following scripts includes original scripts and modified scripts from the ENIGMA imaging protocols (https://enigma.ini.usc.edu/protocols/imaging-protocols/).
+The overall protocol includes original scripts and modified scripts from the ENIGMA imaging protocols (https://enigma.ini.usc.edu/protocols/imaging-protocols/). Please see an overview of scripts below. Assessment of image and reconstruction quality should be evaluated using the ENIGMA QC protocol (https://enigma.ini.usc.edu/protocols/imaging-protocols/).
+
+It is strongly recommended to use FreeSurfer v7.2.0 for extracting structural brain measures. If you cannot update your FreeSurfer version, it is possible to run the script using the FreeSurfer docker image (https://hub.docker.com/r/freesurfer/freesurfer).
 
 ## Brief overview of the shell scripts and their purposes
 
