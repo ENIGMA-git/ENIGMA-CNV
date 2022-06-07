@@ -4,7 +4,7 @@ This folder includes easy-to-use scripts and software for extracting structural 
 
 Please follow the overall instructions in: _ENIGMA-CNV_sMRIProtocol.pdf_.
 
-The overall protocol includes original scripts and modified scripts from the ENIGMA imaging protocols (https://enigma.ini.usc.edu/protocols/imaging-protocols/). Please see an overview of scripts below. Assessment of image and reconstruction quality should be evaluated using the ENIGMA QC protocol (https://enigma.ini.usc.edu/protocols/imaging-protocols/).
+The overall protocol includes original scripts and modified scripts from the ENIGMA imaging protocols (https://enigma.ini.usc.edu/protocols/imaging-protocols/). Assessment of image and reconstruction quality should be evaluated using the ENIGMA QC protocol (https://enigma.ini.usc.edu/protocols/imaging-protocols/). Please see an overview of scripts below. 
 
 It is strongly recommended to use FreeSurfer v7.2.0 for extracting structural brain measures. If you cannot update your FreeSurfer version, it is possible to run the script using the FreeSurfer docker image (https://hub.docker.com/r/freesurfer/freesurfer).
 
