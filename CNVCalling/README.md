@@ -1,11 +1,15 @@
 # Outline of CNV-calling scripts
 
+This folder includes easy-to-use scripts for calling and filtering CNVs (based on genotyping data) with PennCNV (Wang et al 2007, DOI: 10.1101/gr.6861907) and visualizion of CNVs of interest with iPsychCNV (https://github.com/mbertalan/iPsychCNV/).
+
 Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
 
 Needed scripts:
 * _ENIGMA-CNV_CNVProtocol_v2_docker.sh_ or _ENIGMA-CNV_CNVProtocol_v2_singularity.sh_ (choose dependent on software container)
 * _ENIGMA-CNV_visualize_v1.R_ (for visualization)
 * _compile_pfb_new.pl_ (for compiling PFB)
+
+The software (PennCNV and iPsych CNV with dependencies) is packaged in docker and singularity containers, respectively, to run independently of operating system. All helper-files for use in the protocol are in the folders mentioned below. 
 
 ## Folders and files
 
