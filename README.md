@@ -32,7 +32,7 @@ E. Send data
 
 
 ## CNV calling
-This folder includes easy-to-use scripts for calling and filtering CNVs with PennCNV (Wang et al 2007, DOI: 10.1101/gr.6861907) and visualizion of CNVs of interest with iPsychCNV (https://github.com/mbertalan/iPsychCNV/).
+This folder includes easy-to-use scripts for calling and filtering CNVs (based on genotyping data) with PennCNV (Wang et al 2007, DOI: 10.1101/gr.6861907) and visualizion of CNVs of interest with iPsychCNV (https://github.com/mbertalan/iPsychCNV/).
 
 The software (PennCNV and iPsych CNV with dependencies) is packaged in docker and singularity containers, respectively, to run independently of operating system.
 
