@@ -21,5 +21,5 @@ singularity build enigma-cnv.sif docker://bayramalex/enigma-cnv:latest
 
 _Download without singularity_
 
-From this repository enigma-cnv.sif
+From this repository _enigma-cnv.sif_
 
