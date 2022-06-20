@@ -12,12 +12,16 @@ The software in the enigma-cnv container is:
 ## 1. Docker container
 After download of docker software, please download the enigma-cnv:latest container  by writing in the terminal:
 
+```
 docker pull bayramalex/enigma-cnv
+```
 
 ## 2. Singularity container
 _Download with singularity already installed_
 
+```
 singularity build enigma-cnv.sif docker://bayramalex/enigma-cnv:latest
+```
 
 _Download without singularity_
 
