@@ -49,7 +49,7 @@ START=$(date +%s)
 ##################################################
 
 # General info
-declare Dataset="test" # USER-INPUT Replace TOPMD with the name of your dataset
+declare Dataset="test" # USER-INPUT - Replace test with the name of your dataset
 declare ResponsiblePI="OleAndreassen" # USER-INPUT - Replace OleAndreassen with the name of the PI [no spaces, please]
 declare Email_PI="o.a.andreassen@medisin.uio.no" # USER-INPUT - Replace o.a.andreassen@medisin.uio.no with the e-mail of your PI to enable us to contact the PI directly in case of questions.
 declare Analyst="IdaSoenderby" # USER-INPUT - Replace IdaSoenderby with the name of the analyst [no spaces, please]
@@ -95,7 +95,7 @@ declare RemoveFile="${ANALYSISDIR}/RemoveFile.txt" # USER-INPUT # absolute path 
 declare HMMname="/opt/PennCNV-1.0.5/lib/hhall.hmm" # USER-INPUT - Please replace with the correct HMM-file. examples:  /opt/PennCNV-1.0.5/lib/hhall.hmm; for /opt/PennCNV-1.0.5/libhh550.hmm /opt/PennCNV-1.0.5/affy/libgw6/affygw6.hmm
 
 # IF your dataset has more than 300 individuals, you can generate your own PFB-file based on the frequency in your dataset
-declare NoofIndividuals="" # e.g "1000" # No of individuals (e.g. "300") to be used for generating PFB-file and GCC-file (must be at least 300 individuals of good quality). Leave empty if you want to use all your individuals. The more individuals you use, the more precise the estimate becomes but the longer it will take to generate the PFB-model. For the NORMENT dataset, generating a PFB- and GCMODEL-file for the OmniExpress12v1.0 containing 730,525 markers using 1000 individuals took ~90 min on a Mac laptop with a 2.53 GHz Intel Core i5 processor and 4 GB of working memory
+declare NoofIndividuals="" # USER-INPUT - e.g "1000" - No of individuals (e.g. "300") to be used for generating PFB-file and GCC-file (must be at least 300 individuals of good quality). Leave empty if you want to use all your individuals. The more individuals you use, the more precise the estimate becomes but the longer it will take to generate the PFB-model. For the NORMENT dataset, generating a PFB- and GCMODEL-file for the OmniExpress12v1.0 containing 730,525 markers using 1000 individuals took ~90 min on a Mac laptop with a 2.53 GHz Intel Core i5 processor and 4 GB of working memory
 
 # IF your dataset contains less than 300 individuals, you need to use a generic version of the PFB-file. Please confer with the ENIGMA-CNV working group and put in the correct names of the files. # NOTE - IF more than 300 individuals, these files will be generated later and named "${Dataset}_${genomeversion}.pfb" (likewise for GCName)
 declare PFB="hhall.${genomeversion}" # ONLY USER-INPUT for those with <300 individuals -  replace with the correct PFB & GCMODEL (note without extensions) 
@@ -568,7 +568,7 @@ END=$(date +%s)
 declare TIME=`echo $((END-START)) | awk '{print int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'`
 
 # Calculate numbers for dataset
-declare IDsVisualized=`awk 'NR==1 {for (i=1; i<=NF;i++) {f[$i] = i}} { print $(f["ID_deidentified"]) }' ${ANALYSISDIR}/${Dataset}_visualize/Moba_R875_20180120_CNVsofInterest.txt | sort | uniq -c | wc -l`
+declare IDsVisualized=`awk 'NR==1 {for (i=1; i<=NF;i++) {f[$i] = i}} { print $(f["ID_deidentified"]) }' ${ANALYSISDIR}/${Dataset}_visualize/${Dataset}_CNVcarriers_precuration_${Overlapref}.txt | sort | uniq -c | wc -l`
 
 # a. Initiate file
 rm -f ${ANALYSISDIR}/${Dataset}_visualize/${Dataset}_checklist.txt # remove file if already created

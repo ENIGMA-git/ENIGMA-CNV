@@ -53,26 +53,26 @@ START=$(date +%s)
 ##################################################
 
 # General info
-declare Dataset="test" # Replace TOPMD with the name of your dataset
-declare ResponsiblePI="OleAndreassen" # Replace OleAndreassen with the name of the PI [no spaces, please]
-declare Email_PI="o.a.andreassen@medisin.uio.no" # Replace o.a.andreassen@medisin.uio.no with the e-mail of your PI to enable us to contact the PI directly in case of questions.
-declare Analyst="IdaSoenderby" # Replace IdaSoenderby with the name of the analyst [no spaces, please]
-declare Email_Analyst="i.e.sonderby@medisin.uio.no" # Replace e-mail with the e-mail of the analyst to enable us to contact the analyst directly in case of questions.
-declare ANALYSISDIR="/cluster/projects/p697/users/idaeson/CNVCalling/enigmacnv/ENIGMA-CNV_Analysis/" # replace with the full path for the Analysis-folder on your computer/server
-declare deidentify="NA" # only change to YES if deidentification is really important to you, otherwise keep NA
+declare Dataset="test" # USER-INPUT - Replace test with the name of your dataset
+declare ResponsiblePI="OleAndreassen" # USER-INPUT - Replace OleAndreassen with the name of the PI [no spaces, please]
+declare Email_PI="o.a.andreassen@medisin.uio.no" # USER-INPUT - Replace o.a.andreassen@medisin.uio.no with the e-mail of your PI to enable us to contact the PI directly in case of questions.
+declare Analyst="IdaSoenderby" # USER-INPUT - Replace IdaSoenderby with the name of the analyst [no spaces, please]
+declare Email_Analyst="i.e.sonderby@medisin.uio.no" # USER-INPUT - Replace e-mail with the e-mail of the analyst to enable us to contact the analyst directly in case of questions.
+declare ANALYSISDIR="/cluster/projects/p697/users/idaeson/CNVCalling/enigmacnv/ENIGMA-CNV_Analysis/" # USER-INPUT - replace with the full path for the Analysis-folder on your computer/server
+declare deidentify="NA" # USER-INPUT - only change to YES if deidentification is really important to you, otherwise keep NA
 
 # a. Genetic information files - input specific to your genotyping chip
-declare Chip="Illumina_DeCodeGenetics_V1_v2" # genotyping chip: Note - if your dataset is Affymetrix, make sure to put in "Affy6" - otherwise the script will not run appropriately
-declare Chipversion="_" # version of chip (if applicable) [set as NA if non-applicable]
-declare ILLUMINAREPORTDIR="${ANALYSISDIR}"  # absolute path to your Illumina-Final Report-file. Can be replaced with ${ANALYSISDIR} if you placed it there
-declare IlluminaReport="339syni_DeCodeGenetics_V1_v2_FinalReport.txt" # name of your Illumina-Final Report-file
-declare SNPPosFile="339syni_DeCodeGenetics_V1_v2_SNP_Map.txt" 
+declare Chip="Illumina_DeCodeGenetics_V1_v2" # USER-INPUT - genotyping chip: Note - if your dataset is Affymetrix, make sure to put in "Affy6" - otherwise the script will not run appropriately
+declare Chipversion="_" # USER-INPUT - version of chip (if applicable) [set as NA if non-applicable]
+declare ILLUMINAREPORTDIR="${ANALYSISDIR}"  # USER-INPUT - absolute path to your Illumina-Final Report-file. Can be replaced with ${ANALYSISDIR} if you placed it there. f you already have LRRBAF-files, you do not need to fill it out
+declare IlluminaReport="339syni_DeCodeGenetics_V1_v2_FinalReport.txt" # USER-INPUT - name of your Illumina-Final Report-file
+declare SNPPosFile="339syni_DeCodeGenetics_V1_v2_SNP_Map.txt" # USER-INPUT
 	# The snp-position-file is a tab-delimited file with the positions of the SNPs on your chip, containing at least the columns below (with the exact (!) headers). These columns are for instance present in the SNP-map-file [.map] generated together with your IlluminaReport or the Illumina manifest file [.bpm]:
 	# Name	Chromosome	Position
 	# rs1000000	12	126890980
 	# rs1000002	3	183635768
 	# rs10000023	4	95733906
-declare genomeversion="hg19" # Genome-version of SNPpositionfile. It is important that this is correct - otherwise CNV calls and visualization become wrong.
+declare genomeversion="hg19" # USER-INPUT - Genome-version of SNPpositionfile. It is important that this is correct - otherwise CNV calls and visualization become wrong.
 # IF BAF-LRR-files already present for your dataset (for instance Affy-users)
 declare BAFLRRpresent="no" # USER-INPUT - only put "yes" if you have BAF-LRR-files ready available - otherwise, leave the "no"
 if [ $BAFLRRpresent = "yes" ]
@@ -84,8 +84,8 @@ if [ $BAFLRRpresent = "yes" ]
 declare LRRBAFDIR="${ANALYSISDIR}/LRRBAF_Files/" # Note - this will place the PennCNV input files in a subfolder of  your ENIGMA-CNV analysis folder. These take up quite a lot of space - if you wish them to be placed elsewhere, write the full path of the wanted folder (USER-INPUT)
 fi
 # Post/prefixes in LRR-BAF-files
-declare postscript="" # e.g ".penn" # IF converting from IlluminaFinalReport to LRRBAF-files with this script, this should be left empty. LRR-BAF files from previous convertions may have a postfix (e.g. ".penn", "_lrrbaf"), please input this here (USER-INPUT).
-declare Affyprescript="" # e.g. "gw." # Affymetrix files names often get this prescript, which needs to be removed to couple samples. Replace with different prescript if relevant (USER-INPUT).
+declare postscript="" # e.g ".penn" # USER-INPUT - IF converting from IlluminaFinalReport to LRRBAF-files with this script, this should be left empty. LRR-BAF files from previous convertions may have a postfix (e.g. ".penn", "_lrrbaf"), please input this here (USER-INPUT).
+declare Affyprescript="" # e.g. "gw." # USER-INPUT - Affymetrix files names often get this prescript, which needs to be removed to couple samples. Replace with different prescript if relevant (USER-INPUT).
 
 # b. Cohort-generated files
 declare SexFile="${ANALYSISDIR}/SexFile.txt" # USER-INPUT - absolute path to your sex-file
@@ -99,7 +99,7 @@ declare RemoveFile="${ANALYSISDIR}/RemoveFile.txt" # USER-INPUT # absolute path 
 declare HMMname="/opt/PennCNV-1.0.5/lib/hhall.hmm" # USER-INPUT - Please replace with the correct HMM-file. examples:  /opt/PennCNV-1.0.5/lib/hhall.hmm; for /opt/PennCNV-1.0.5/libhh550.hmm /opt/PennCNV-1.0.5/affy/libgw6/affygw6.hmm
 
 # IF your dataset has more than 300 individuals, you can generate your own PFB-file based on the frequency in your dataset
-declare NoofIndividuals="" # e.g "1000" # No of individuals (e.g. "300") to be used for generating PFB-file and GCC-file (must be at least 300 individuals of good quality). Leave empty if you want to use all your individuals. The more individuals you use, the more precise the estimate becomes but the longer it will take to generate the PFB-model. For the NORMENT dataset, generating a PFB- and GCMODEL-file for the OmniExpress12v1.0 containing 730,525 markers using 1000 individuals took ~90 min on a Mac laptop with a 2.53 GHz Intel Core i5 processor and 4 GB of working memory
+declare NoofIndividuals="" # USER-INPUT - e.g "1000" - No of individuals (e.g. "300") to be used for generating PFB-file and GCC-file (must be at least 300 individuals of good quality). Leave empty if you want to use all your individuals. The more individuals you use, the more precise the estimate becomes but the longer it will take to generate the PFB-model. For the NORMENT dataset, generating a PFB- and GCMODEL-file for the OmniExpress12v1.0 containing 730,525 markers using 1000 individuals took ~90 min on a Mac laptop with a 2.53 GHz Intel Core i5 processor and 4 GB of working memory
 
 # IF your dataset contains less than 300 individuals, you need to use a generic version of the PFB-file. Please confer with the ENIGMA-CNV working group and put in the correct names of the files. # NOTE - IF more than 300 individuals, these files will be generated later and named "${Dataset}_${genomeversion}.pfb" (likewise for GCName)
 declare PFB="DeCodeGenetics_V1_20012591_A1_${genomeversion}" # ONLY USER-INPUT for those with <300 individuals -  replace with the correct PFB & GCMODEL (note without extensions) 
@@ -396,7 +396,7 @@ fi
 # i. Identify CNVs with overlap to centromeric, telomeric, segmentalduplication and immunoglobulin regions
 for i in centro telo segmentaldups immuno;
 do
-	singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final outdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${outDIR}/${Dataset}.auto.${i};
+	singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final outdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.auto.${i};
 echo "${i} is done";
 done
 
@@ -573,7 +573,8 @@ END=$(date +%s)
 declare TIME=`echo $((END-START)) | awk '{print int($1/3600)":"int(($1%3600)/60)":"int($1%60)}'`
 
 # Calculate numbers for dataset
-declare IDsVisualized=`awk 'NR==1 {for (i=1; i<=NF;i++) {f[$i] = i}} { print $(f["ID_deidentified"]) }' ${ANALYSISDIR}/${Dataset}_visualize/Moba_R875_20180120_CNVsofInterest.txt | sort | uniq -c | wc -l`
+declare IDsVisualized=`awk 'NR==1 {for (i=1; i<=NF;i++) {f[$i] = i}} { print $(f["ID_deidentified"]) }' ${ANALYSISDIR}/${Dataset}_visualize/${Dataset}_CNVcarriers_precuration_${Overlapref}.txt | sort | uniq -c | wc -l`
+
 
 # a. Initiate file
 rm -f ${ANALYSISDIR}/${Dataset}_visualize/${Dataset}_checklist.txt # remove file if already created
