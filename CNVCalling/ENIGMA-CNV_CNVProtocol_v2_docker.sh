@@ -49,26 +49,26 @@ START=$(date +%s)
 ##################################################
 
 # General info
-declare Dataset="test" # Replace TOPMD with the name of your dataset
-declare ResponsiblePI="OleAndreassen" # Replace OleAndreassen with the name of the PI [no spaces, please]
-declare Email_PI="o.a.andreassen@medisin.uio.no" # Replace o.a.andreassen@medisin.uio.no with the e-mail of your PI to enable us to contact the PI directly in case of questions.
-declare Analyst="IdaSoenderby" # Replace IdaSoenderby with the name of the analyst [no spaces, please]
-declare Email_Analyst="i.e.sonderby@medisin.uio.no" # Replace e-mail with the e-mail of the analyst to enable us to contact the analyst directly in case of questions.
-declare ANALYSISDIR="/Users/idaeson/home/Projects/ENIGMA_CNV/Protocols/Protocolprep_Winter2021/Testingprotocol_May2022/" # replace with the full path for the Analysis-folder on your computer/server
-declare deidentify="NA" # only change to YES if deidentification is really important to you, otherwise keep NA
+declare Dataset="test" # USER-INPUT Replace TOPMD with the name of your dataset
+declare ResponsiblePI="OleAndreassen" # USER-INPUT - Replace OleAndreassen with the name of the PI [no spaces, please]
+declare Email_PI="o.a.andreassen@medisin.uio.no" # USER-INPUT - Replace o.a.andreassen@medisin.uio.no with the e-mail of your PI to enable us to contact the PI directly in case of questions.
+declare Analyst="IdaSoenderby" # USER-INPUT - Replace IdaSoenderby with the name of the analyst [no spaces, please]
+declare Email_Analyst="i.e.sonderby@medisin.uio.no" # USER-INPUT - Replace e-mail with the e-mail of the analyst to enable us to contact the analyst directly in case of questions.
+declare ANALYSISDIR="/Users/idaeson/home/Projects/ENIGMA_CNV/Protocols/Protocolprep_Winter2021/Testingprotocol_May2022/" # USER-INPUT - replace with the full path for the Analysis-folder on your computer/server
+declare deidentify="NA" # USER-INPUT - only change to YES if deidentification is really important to you, otherwise keep NA
 
 # a. Genetic information files - input specific to your genotyping chip
-declare Chip="Illumina_DeCodeGenetics_V1_v2" # genotyping chip: Note - if your dataset is Affymetrix, make sure to put in "Affy6" - otherwise the script will not run appropriately
-declare Chipversion="_" # version of chip (if applicable) [set as NA if non-applicable]
-declare ILLUMINAREPORTDIR="${ANALYSISDIR}"  # absolute path to your Illumina-Final Report-file. Can be replaced with ${ANALYSISDIR} if you placed it there
-declare IlluminaReport="339syni_DeCodeGenetics_V1_v2_FinalReport.txt" # name of your Illumina-Final Report-file
-declare SNPPosFile="339syni_DeCodeGenetics_V1_v2_SNP_Map.txt" 
+declare Chip="Illumina_DeCodeGenetics_V1_v2" # USER-INPUT - genotyping chip: Note - if your dataset is Affymetrix, make sure to put in "Affy6" - otherwise the script will not run appropriately
+declare Chipversion="_" # USER-INPUT - version of chip (if applicable) [set as NA if non-applicable]
+declare ILLUMINAREPORTDIR="${ANALYSISDIR}"  # USER-INPUT - absolute path to your Illumina-Final Report-file. Can be replaced with ${ANALYSISDIR} if you placed it there. If you already have LRRBAF-files, you do not need to fill it out
+declare IlluminaReport="339syni_DeCodeGenetics_V1_v2_FinalReport.txt" # USER-INPUT - name of your Illumina-Final Report-file
+declare SNPPosFile="339syni_DeCodeGenetics_V1_v2_SNP_Map.txt" # USER-INPUT 
 	# The snp-position-file is a tab-delimited file with the positions of the SNPs on your chip, containing at least the columns below (with the exact (!) headers). These columns are for instance present in the SNP-map-file [.map] generated together with your IlluminaReport or the Illumina manifest file [.bpm]:
 	# Name	Chromosome	Position
 	# rs1000000	12	126890980
 	# rs1000002	3	183635768
 	# rs10000023	4	95733906
-declare genomeversion="hg18" # Genome-version of SNPpositionfile. It is important that this is correct - otherwise CNV calls and visualization become wrong.
+declare genomeversion="hg18" # USER-INPUT - Genome-version of SNPpositionfile. It is important that this is correct - otherwise CNV calls and visualization become wrong.
 # IF BAF-LRR-files already present for your dataset (for instance Affy-users)
 declare BAFLRRpresent="yes" # USER-INPUT - only put "yes" if you have BAF-LRR-files ready available - otherwise, leave the "no"
 if [ $BAFLRRpresent = "yes" ]
@@ -80,8 +80,8 @@ if [ $BAFLRRpresent = "yes" ]
 declare LRRBAFDIR="${ANALYSISDIR}/LRRBAF_Files/" # Note - this will place the PennCNV input files in a subfolder of  your ENIGMA-CNV analysis folder. These take up quite a lot of space - if you wish them to be placed elsewhere, write the full path of the wanted folder (USER-INPUT)
 fi
 # Post/prefixes in LRR-BAF-files
-declare postscript="" # e.g ".penn" # IF converting from IlluminaFinalReport to LRRBAF-files with this script, this should be left empty. LRR-BAF files from previous convertions may have a postfix (e.g. ".penn", "_lrrbaf"), please input this here (USER-INPUT).
-declare Affyprescript="" # e.g. "gw." # Affymetrix files names often get this prescript, which needs to be removed to couple samples. Replace with different prescript if relevant (USER-INPUT).
+declare postscript="" # e.g ".penn" # USER-INPUT - IF converting from IlluminaFinalReport to LRRBAF-files with this script, this should be left empty. LRR-BAF files from previous convertions may have a postfix (e.g. ".penn", "_lrrbaf"), please input this here (USER-INPUT).
+declare Affyprescript="" # e.g. "gw." # USER-INPUT - Affymetrix files names often get this prescript, which needs to be removed to couple samples. Replace with different prescript if relevant (USER-INPUT).
 
 # b. Cohort-generated files
 declare SexFile="${ANALYSISDIR}/SexFile.txt" # USER-INPUT - absolute path to your sex-file
@@ -266,43 +266,43 @@ else
 	echo "less than 300 individuals, please choose a generic PFB-file after conferring with the ENIGMA-CNV working group"
 fi
 
-# #######################
-# ## C: Do CNV Calling ##
-# #######################
-#
-# # Autosomal and X-chromosome CNVs are called separately
-#
-# ## Step 1: Call CNVs on autosomal chromosomes with GC-adjustment
-# docker run -v ${OUTDIR}:/outdir -v ${ANALYSISDIR}:/analysisdir -v ${LRRBAFDIR}:/lrrbafdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list outdir/${List_postQC}_adj --confidence -out outdir/${Dataset}.auto.raw  -log outdir/${Dataset}.auto.raw.log
-#
-# 	# --test		tells the program to generate CNV calls
-# 	# --confidence	calculate confidence for each CNV
-# 	# --hmmfile and –pfbfile	provides the files for hmm- & pfb-files
-# 	# --gcmodel	implements a wave adjustment procedure for genomic waves which reduce false positive calls. It is recommended when if a large fraction of your samples have waviness factor (WF value) less than -0.04 or higher than 0.04
-# 	# -list		provides the file with the list of samples you want called
-# 	# –log		tells the program to write log information
-# 	# --out		raw cnvcalls for all input individuals
-#
-# # Note: This took ~48 hours to run for the MAS sample which comprises 925 individuals and 1,8 mio marker on the Affymetrix genomewide array 6.0-platform.
-#
-#
-# ## Step 2: Call CNVs on X-chromosome with GC-adjustment
-#
-# # a. Make sex-file for your inputfile
-# awk '{print $1,$1}' ${OUTDIR}${List_postQC}_adj | awk -v postscript=${postscript} -v prescript=${prescript} '{sub(/.+\//,"\/",$1); sub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1]=$2;next} {if ($1 in k) {print k[$1] "\t" $2}}' - ${SexFile} >${OUTDIR}/${Dataset}_SexFile.txt
-#
-#     # If sex for a sample is not provided in sexfile, or if --sexfile is not specified, PennCNV will try to predict the gender of the sample. It is highly recommended to provide a sexfile [saves time].
-#     # This command couples the full path of each individual input-file to sex with the following end-format:
-#     # 	/Volumes/CNV_Calling/Analysis/PennCNV_InputFiles/TOP1	female
-#     # 	/Volumes/CNV_Calling/Analysis/PennCNV_InputFiles/TOP2	male
-#     # 	etc
-#
-# # b. Call CNVs on X-chromosome
-# docker run -v ${OUTDIR}:/outdir -v ${ANALYSISDIR}:/analysisdir -v ${LRRBAFDIR}:/lrrbafdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list outdir/${List_postQC}_adj --confidence -out outdir/${Dataset}.X.raw  -log outdir/${Dataset}.X.raw.log --chrx --sexfile outdir/${Dataset}_SexFile.txt
-# 	# --chrx		specifies that x-chromosome should be called
-# 	# --sexfile	provides the sexfile data for the calling
-#
-# # Note: This took ~48 hours to run for the MAS sample which comprises 925 individuals and 1,8 mio marker on the Affymetrix genomewide array 6.0-platform on a ??? specify computer etc...
+#######################
+## C: Do CNV Calling ##
+#######################
+
+# Autosomal and X-chromosome CNVs are called separately
+
+## Step 1: Call CNVs on autosomal chromosomes with GC-adjustment
+docker run -v ${OUTDIR}:/outdir -v ${ANALYSISDIR}:/analysisdir -v ${LRRBAFDIR}:/lrrbafdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list outdir/${List_postQC}_adj --confidence -out outdir/${Dataset}.auto.raw  -log outdir/${Dataset}.auto.raw.log
+
+	# --test		tells the program to generate CNV calls
+	# --confidence	calculate confidence for each CNV
+	# --hmmfile and –pfbfile	provides the files for hmm- & pfb-files
+	# --gcmodel	implements a wave adjustment procedure for genomic waves which reduce false positive calls. It is recommended when if a large fraction of your samples have waviness factor (WF value) less than -0.04 or higher than 0.04
+	# -list		provides the file with the list of samples you want called
+	# –log		tells the program to write log information
+	# --out		raw cnvcalls for all input individuals
+
+# Note: This took ~48 hours to run for the MAS sample which comprises 925 individuals and 1,8 mio marker on the Affymetrix genomewide array 6.0-platform.
+
+
+## Step 2: Call CNVs on X-chromosome with GC-adjustment
+
+# a. Make sex-file for your inputfile
+awk '{print $1,$1}' ${OUTDIR}${List_postQC}_adj | awk -v postscript=${postscript} -v prescript=${prescript} '{sub(/.+\//,"\/",$1); sub(/\//,"",$1); gsub(postscript,"",$1); gsub(prescript,"",$1); print}' | awk 'FNR==NR {k[$1]=$2;next} {if ($1 in k) {print k[$1] "\t" $2}}' - ${SexFile} >${OUTDIR}/${Dataset}_SexFile.txt
+
+    # If sex for a sample is not provided in sexfile, or if --sexfile is not specified, PennCNV will try to predict the gender of the sample. It is highly recommended to provide a sexfile [saves time].
+    # This command couples the full path of each individual input-file to sex with the following end-format:
+    # 	/Volumes/CNV_Calling/Analysis/PennCNV_InputFiles/TOP1	female
+    # 	/Volumes/CNV_Calling/Analysis/PennCNV_InputFiles/TOP2	male
+    # 	etc
+
+# b. Call CNVs on X-chromosome
+docker run -v ${OUTDIR}:/outdir -v ${ANALYSISDIR}:/analysisdir -v ${LRRBAFDIR}:/lrrbafdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list outdir/${List_postQC}_adj --confidence -out outdir/${Dataset}.X.raw  -log outdir/${Dataset}.X.raw.log --chrx --sexfile outdir/${Dataset}_SexFile.txt
+	# --chrx		specifies that x-chromosome should be called
+	# --sexfile	provides the sexfile data for the calling
+
+# Note: This took ~48 hours to run for the MAS sample which comprises 925 individuals and 1,8 mio marker on the Affymetrix genomewide array 6.0-platform on a ??? specify computer etc...
 
 ######################
 ## D. Downstream QC ##
@@ -391,7 +391,7 @@ fi
 # i. Identify CNVs with overlap to centromeric, telomeric, segmentalduplication and immunoglobulin regions
 for i in centro telo segmentaldups immuno;
 do
-	docker run -v ${OUTDIR}:/outdir -v  ${ANALYSISDIR}:/analysisdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final outdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${outDIR}/${Dataset}.auto.${i};
+	docker run -v ${OUTDIR}:/outdir -v  ${ANALYSISDIR}:/analysisdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final outdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.auto.${i};
 echo "${i} is done";
 done
 
