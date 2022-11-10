@@ -1,8 +1,8 @@
 #!/bin/bash
 
 set -xv #print commands
-exec > >(tee -i ENIGMA-CNV_logfile.txt) # write output to logfile
-exec 2>&1 # ensures that all std/stderr are also written to log-file
+exec > >(tee -i ENIGMA-CNV_logfile.txt) # write output to logfile # USER-input - if running on a windows machine, this may need to be commented out
+exec 2>&1 # ensures that all std/stderr are also written to log-file # USER-input - if running on a windows machine, this may need to be commented out
 
 # date and start the clock
 date=$(date +%y%m%d)
