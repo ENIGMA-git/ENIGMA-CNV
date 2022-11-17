@@ -400,7 +400,7 @@ do
 echo "${i} is done";
 done
 
-b. Remove CNVs with overlap to spurious regions
+#b. Remove CNVs with overlap to spurious regions
 
 # i. Make list
 for i in centro telo segmentaldups immuno;
