@@ -391,7 +391,7 @@ fi
 # i. Identify CNVs with overlap to centromeric, telomeric, segmentalduplication and immunoglobulin regions
 for i in centro telo segmentaldups immuno;
 do
-	docker run -v ${OUTDIR}:/outdir -v  ${ANALYSISDIR}:/analysisdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final outdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.auto.${i};
+	docker run -v ${OUTDIR}:/outdir -v  ${ANALYSISDIR}:/analysisdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final analysisdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.auto.${i};
 echo "${i} is done";
 done
 
