@@ -10,8 +10,8 @@ START=$(date +%s)
 
 #: Document: ENIGMA-CNV_CNVProtocol_v2_docker.sh
 #: Title: ENIGMA CNV Working group – standardized protocol for calling and filtering CNVs
-#: Purpose: 
-	# Call raw CNVs on Illumina samples and Affymetrix samples [the latter needs preprocessing first] 
+#: Purpose:
+	# Call raw CNVs on Illumina samples and Affymetrix samples [the latter needs preprocessing first]
 	# Filtering of raw CNVs
 	# Visualization of selected CNVs of Interest and CNVs>50kb
 # Date, v1: 2015-07-06
@@ -62,7 +62,7 @@ declare Chip="Illumina_DeCodeGenetics_V1_v2" # USER-INPUT - genotyping chip: Not
 declare Chipversion="_" # USER-INPUT - version of chip (if applicable) [set as NA if non-applicable]
 declare ILLUMINAREPORTDIR="${ANALYSISDIR}"  # USER-INPUT - absolute path to your Illumina-Final Report-file. Can be replaced with ${ANALYSISDIR} if you placed it there. If you already have LRRBAF-files, you do not need to fill it out
 declare IlluminaReport="339syni_DeCodeGenetics_V1_v2_FinalReport.txt" # USER-INPUT - name of your Illumina-Final Report-file
-declare SNPPosFile="339syni_DeCodeGenetics_V1_v2_SNP_Map.txt" # USER-INPUT 
+declare SNPPosFile="339syni_DeCodeGenetics_V1_v2_SNP_Map.txt" # USER-INPUT
 	# The snp-position-file is a tab-delimited file with the positions of the SNPs on your chip, containing at least the columns below (with the exact (!) headers). These columns are for instance present in the SNP-map-file [.map] generated together with your IlluminaReport or the Illumina manifest file [.bpm]:
 	# Name	Chromosome	Position
 	# rs1000000	12	126890980
@@ -91,15 +91,15 @@ declare RelativeFile="${ANALYSISDIR}/DupsRelatives.txt" # USER-INPUT - absolute 
 declare KeepFile="" # USER-INPUT # absolute path to your KeepFile.txt - leave empty if you do not have a KeepFile
 declare RemoveFile="${ANALYSISDIR}/RemoveFile.txt" # USER-INPUT # absolute path to your RemoveFile.txt - leave empty if you do not have a RemoveFile
 
-### c. Genotyping-chip dependent information - 
+### c. Genotyping-chip dependent information -
 declare HMMname="/opt/PennCNV-1.0.5/lib/hhall.hmm" # USER-INPUT - Please replace with the correct HMM-file. examples:  /opt/PennCNV-1.0.5/lib/hhall.hmm; for /opt/PennCNV-1.0.5/libhh550.hmm /opt/PennCNV-1.0.5/affy/libgw6/affygw6.hmm
 
 # IF your dataset has more than 300 individuals, you can generate your own PFB-file based on the frequency in your dataset
 declare NoofIndividuals="" # USER-INPUT - e.g "1000" - No of individuals (e.g. "300") to be used for generating PFB-file and GCC-file (must be at least 300 individuals of good quality). Leave empty if you want to use all your individuals. The more individuals you use, the more precise the estimate becomes but the longer it will take to generate the PFB-model. For the NORMENT dataset, generating a PFB- and GCMODEL-file for the OmniExpress12v1.0 containing 730,525 markers using 1000 individuals took ~90 min on a Mac laptop with a 2.53 GHz Intel Core i5 processor and 4 GB of working memory
 
 # IF your dataset contains less than 300 individuals, you need to use a generic version of the PFB-file. Please confer with the ENIGMA-CNV working group and put in the correct names of the files. # NOTE - IF more than 300 individuals, these files will be generated later and named "${Dataset}_${genomeversion}.pfb" (likewise for GCName)
-declare PFB="hhall.${genomeversion}" # ONLY USER-INPUT for those with <300 individuals -  replace with the correct PFB & GCMODEL (note without extensions) 
-declare PFBname="${PFB}.pfb"  # no input 
+declare PFB="hhall.${genomeversion}" # ONLY USER-INPUT for those with <300 individuals -  replace with the correct PFB & GCMODEL (note without extensions)
+declare PFBname="${PFB}.pfb"  # no input
 declare GCname="${PFB}.gcmodel" # no input
 
 #####################################################################
@@ -111,26 +111,26 @@ declare List_preQC="${Dataset}_ListofInputFiles_preQC.txt"
 declare List_postQC="${Dataset}_ListofInputFiles_postQC.txt"
 
 # b. Cut-offs, autosomal chromosomes filtering
-declare LRR_SD=0.40 
-declare BAF_drift=0.02 
+declare LRR_SD=0.40
+declare BAF_drift=0.02
 declare WF=0.05
 declare NoofSNPs=15
-declare MergeFraction=0.30 # depending on chip, this may need adjustment - this was appropriate for Illumina OmniExpress where 0.2 was too low. 
+declare MergeFraction=0.30 # depending on chip, this may need adjustment - this was appropriate for Illumina OmniExpress where 0.2 was too low.
 declare MinQueryFrac=0.5 # define the overlap with the regions necessary to be excluded
 
 # c. Cut-offs, X chromosome filtering
 # For the X-chromoxome, only small CNVs are removed and CNVs merged whereas BAF-drift and WF, LRR_SD are skipped (by setting them abnormally high) to not filter based on X-chromosome only.
 declare NoofSNPs_X=15
 declare MergeFraction_X=0.30
-declare LRR_SD_X=0.99 
-declare BAF_drift_X=0.99 
-declare WF_X=0.99 
+declare LRR_SD_X=0.99
+declare BAF_drift_X=0.99
+declare WF_X=0.99
 
 ### d. Parameters needed for visualization
 declare VISUALIZEDIR=${ANALYSISDIR}/${Dataset}_visualize/
 mkdir ${VISUALIZEDIR}
 declare CNVofInterestFile="CNVsofInterest_ENIGMA-CNV_${genomeversion}.csv" # appropriate CNVsofInterest-file for visualization (changes according to genome version)
-Overlapref=0.3 # How large a proportion of the CNV is overlapping with the CNVofInterest? 
+Overlapref=0.3 # How large a proportion of the CNV is overlapping with the CNVofInterest?
 OverlapMin=0.35 # Minimum overlap
 OverlapMax=5 # Maximum overlap
 
@@ -391,7 +391,7 @@ fi
 # i. Identify CNVs with overlap to centromeric, telomeric, segmentalduplication and immunoglobulin regions
 for i in centro telo segmentaldups immuno;
 do
-	docker run -v ${OUTDIR}:/outdir -v  ${ANALYSISDIR}:/analysisdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final outdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.auto.${i};
+	docker run -v ${OUTDIR}:/outdir -v  ${ANALYSISDIR}:/analysisdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final analysisdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.auto.${i};
 echo "${i} is done";
 done
 
@@ -644,7 +644,7 @@ IDsVisualized\t${IDsVisualized}"
 # Step 2: Tar the folder for file-transfer #
 ############################################
 
-# All folders in the visualization folder will be transferred. 
+# All folders in the visualization folder will be transferred.
 
 # This includes:
 
@@ -664,8 +664,3 @@ IDsVisualized\t${IDsVisualized}"
 # Zip the visualization-folder for transfer
 rm ${ANALYSISDIR}/${Dataset}_visualize.tar.gz # remove previously zipped folder
 tar -zcvf ${ANALYSISDIR}/${Dataset}_visualize.tar.gz ${VISUALIZEDIR}
-
-
-
-
-
