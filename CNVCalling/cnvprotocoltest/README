@@ -1,7 +1,7 @@
 README_enigmacnvtest
 
 This folder contains all the necessary files to test if the CNV-calling script runs smoothly on your system.
-E.g. this is also a folder to check if the format of your files is correct.
+E.g. this folder might also be useful to check that the format of your files is correct.
 
 Docker-specifics:
 -please open docker prior to running
