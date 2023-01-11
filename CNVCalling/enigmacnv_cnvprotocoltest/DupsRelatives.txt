@@ -1,0 +1,5 @@
+SampleID1	SampleID2	Pihat	Relation
+test1	test3	0.5	parentchild
+test5	test6	0.99	twins
+test1	test10	_	parentchild
+

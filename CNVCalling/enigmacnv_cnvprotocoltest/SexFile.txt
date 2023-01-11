@@ -1,0 +1,12 @@
+SampleID	sex
+test1	female
+test2	male
+test3	female
+test4	male
+test5	male
+test6	male
+test7	female
+test8	female
+test9	male
+test10	female
+
