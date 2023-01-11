@@ -9,7 +9,7 @@ Needed scripts:
 * _ENIGMA-CNV_visualize_v1.R_ (for visualization)
 * _compile_pfb_new.pl_ (for compiling PFB)
 
-The software (PennCNV and iPsych CNV with dependencies) is packaged in docker and singularity containers, respectively, to run independently of operating system. All helper-files for use in the protocol are in the folders mentioned below. 
+The software (PennCNV and iPsych CNV with dependencies) is packaged in docker and singularity containers, respectively, to run independently of operating system. All helper-files for use in the protocol are in the folders mentioned below.
 
 ## Folders and files
 
@@ -24,6 +24,10 @@ Includes files with 93 recurrent CNVs (Kendall et al 2017,  DOI: 10.1016/j.biops
 _PFBGCMODELHMM_
 
 Includes the hidden markov files used in CNV-calling
+
+_cnvprotocoltest_
+
+This is folder with all the files needed to test the docker/singularity script on your computer (independent of your own data).
 
 _examplefiles_
 
