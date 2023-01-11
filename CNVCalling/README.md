@@ -27,7 +27,7 @@ Includes the hidden markov files used in CNV-calling
 
 _cnvprotocoltest_
 
-This is folder with all the files needed to test the docker/singularity script on your computer (independent of your own data).
+This is a folder with all the files needed to test the docker/singularity script on your computer (independent of your own data).
 
 _examplefiles_
 
