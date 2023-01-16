@@ -1,7 +1,7 @@
 README_enigmacnvtest
 
 This folder contains all the necessary files to test if the CNV-calling script runs smoothly on your system.
-E.g. this folder might also be useful to check that the format of your files is correct.
+Also, the files of this folder might also be useful (for comparison) to check that the format of your files is correct.
 
 Docker-specifics:
 -please open docker prior to running
@@ -10,7 +10,7 @@ Docker-specifics:
 Singularity-specifics:
 -please specify the correct path for the singularity container (enigma-cnv.sif) in the script or place the singularity-container in the analysis-folder.
 
-To run, please download the folder and run the script (EENIGMA-CNV_CNVProtocol_v2_docker_protocoltest.sh or ENIGMA-CNV_CNVProtocol_v2_singularity_protocoltest.sh) from the terminal (according to the instructions in the script itself).
+To run, please download the folder and run the script (ENIGMA-CNV_CNVProtocol_v2_docker_protocoltest.sh or ENIGMA-CNV_CNVProtocol_v2_singularity_protocoltest.sh) from the terminal (according to the instructions in the script itself).
 
 Outputfiles should be two folders:
 enigmatest_output/ [47 files]
