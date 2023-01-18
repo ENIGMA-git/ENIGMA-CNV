@@ -278,7 +278,7 @@ fi
 # Autosomal and X-chromosome CNVs are called separately
 
 ## Step 1: Call CNVs on autosomal chromosomes with GC-adjustment
-singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list outdir/${List_postQC}_adj --confidence -out outdir/${Dataset}.auto.raw  -log outdir/${Dataset}.auto.raw.log
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list /outdir/${List_postQC}_adj --confidence -out /outdir/${Dataset}.auto.raw  -log /outdir/${Dataset}.auto.raw.log
 
 	# --test		tells the program to generate CNV calls
 	# --confidence	calculate confidence for each CNV
@@ -303,7 +303,7 @@ awk '{print $1,$1}' ${OUTDIR}${List_postQC}_adj | awk -v postscript=${postscript
     # 	etc
 
 # b. Call CNVs on X-chromosome
-singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list outdir/${List_postQC}_adj --confidence -out outdir/${Dataset}.X.raw  -log outdir/${Dataset}.X.raw.log --chrx --sexfile outdir/${Dataset}_SexFile.txt
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir -B ${LRRBAFDIR}:/lrrbafdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/detect_cnv.pl -test -hmm ${HMMname} -pfb /analysisdir/${PFBname} -gcmodel /analysisdir/${GCname} -list /outdir/${List_postQC}_adj --confidence -out /outdir/${Dataset}.X.raw  -log /outdir/${Dataset}.X.raw.log --chrx --sexfile /outdir/${Dataset}_SexFile.txt
 	# --chrx		specifies that x-chromosome should be called
 	# --sexfile	provides the sexfile data for the calling
 
@@ -347,7 +347,7 @@ singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir -
 # The filter_cnv.pl program identifies low-quality samples from a genotyping experiment and eliminates them from future analysis. This analysis requires the output LOG file from CNV calling in addition to the raw cnv-file.
 
 # a. obtain summary statistics for dataset
-singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir   ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl outdir/${Dataset}.auto.raw --qclrrsd ${LRR_SD} --qcbafdrift ${BAF_drift} --qcwf ${WF} --numsnp ${NoofSNPs} --qclogfile outdir/${Dataset}.auto.raw.log --qcpassout outdir/${Dataset}.auto.passout --qcsumout outdir/${Dataset}.auto.sumout --out outdir/${Dataset}.auto.flr
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir   ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl /outdir/${Dataset}.auto.raw --qclrrsd ${LRR_SD} --qcbafdrift ${BAF_drift} --qcwf ${WF} --numsnp ${NoofSNPs} --qclogfile /outdir/${Dataset}.auto.raw.log --qcpassout /outdir/${Dataset}.auto.passout --qcsumout /outdir/${Dataset}.auto.sumout --out /outdir/${Dataset}.auto.flr
 
 echo "Finished first filtering of autosomal CNVs"
 
@@ -357,14 +357,14 @@ echo "Finished first filtering of autosomal CNVs"
 
 
 # i. 1st time
-singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.auto.flr --output outdir/${Dataset}.autosomal.flr_mrg1
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} /outdir/${Dataset}.auto.flr --output /outdir/${Dataset}.autosomal.flr_mrg1
 
 # ii. This command ensures that CNVs are getting merged until there are no more CNVs to merge within the defined distance
 {
 i=1
 while [ ${i} -lt 50 ]; do
 declare j=$(($i+1));
-singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.autosomal.flr_mrg${i} --output outdir/${Dataset}.autosomal.flr_mrg${j}
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} /outdir/${Dataset}.autosomal.flr_mrg${i} --output /outdir/${Dataset}.autosomal.flr_mrg${j}
 
 declare length1=`awk 'END {print NR}' ${OUTDIR}/${Dataset}.autosomal.flr_mrg${i}`
 declare length2=`awk 'END {print NR}' ${OUTDIR}/${Dataset}.autosomal.flr_mrg${j}`
@@ -396,7 +396,7 @@ fi
 # i. Identify CNVs with overlap to centromeric, telomeric, segmentalduplication and immunoglobulin regions
 for i in centro telo segmentaldups immuno;
 do
-	singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.auto.flr_mrg_final analysisdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.auto.${i};
+	singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl /outdir/${Dataset}.auto.flr_mrg_final /analysisdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.auto.${i};
 echo "${i} is done";
 done
 
@@ -417,7 +417,7 @@ echo "Finished removal of spurious regions for autosomal CNVs"
 ##########################################################
 
 # a. obtain summary statistics for dataset
-singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl outdir/${Dataset}.auto.flr_mrg_spur -qclrrsd ${LRR_SD} --qcbafdrift ${BAF_drift} --qcwf ${WF} -numsnp ${NoofSNPs} --qclogfile outdir/${Dataset}.auto.raw.log --qcpassout outdir/${Dataset}.auto.passout_QC --qcsumout outdir/${Dataset}.auto.sumout_QC --out outdir/${Dataset}.auto.flr_QC
+singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl /outdir/${Dataset}.auto.flr_mrg_spur -qclrrsd ${LRR_SD} --qcbafdrift ${BAF_drift} --qcwf ${WF} -numsnp ${NoofSNPs} --qclogfile /outdir/${Dataset}.auto.raw.log --qcpassout /outdir/${Dataset}.auto.passout_QC --qcsumout /outdir/${Dataset}.auto.sumout_QC --out /outdir/${Dataset}.auto.flr_QC
 
 #######################
 # X-chromosomal CNVs ##
@@ -428,7 +428,7 @@ singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir 
 ###########################################################
 
 # a. obtain summary statistics for dataset
-singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir   ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl outdir/${Dataset}.X.raw --qclrrsd ${LRR_SD_X} --qcbafdrift ${BAF_drift_X} --qcwf ${WF_X} --numsnp ${NoofSNPs_X} --qclogfile outdir/${Dataset}.X.raw.log --qcpassout outdir/${Dataset}.X.passout --qcsumout outdir/${Dataset}.X.sumout --out outdir/${Dataset}.X.flr --chrx
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir   ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl /outdir/${Dataset}.X.raw --qclrrsd ${LRR_SD_X} --qcbafdrift ${BAF_drift_X} --qcwf ${WF_X} --numsnp ${NoofSNPs_X} --qclogfile /outdir/${Dataset}.X.raw.log --qcpassout /outdir/${Dataset}.X.passout --qcsumout /outdir/${Dataset}.X.sumout --out /outdir/${Dataset}.X.flr --chrx
 
 echo "Finished first filtering of X-chromosomal CNVs"
 
@@ -437,14 +437,14 @@ echo "Finished first filtering of X-chromosomal CNVs"
 ######################
 
 # i. 1st time
-singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.X.flr --output outdir/${Dataset}.X.flr_mrg1
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} /outdir/${Dataset}.X.flr --output /outdir/${Dataset}.X.flr_mrg1
 
 # ii. This command ensures that CNVs are getting merged until there are no more CNVs to merge within the defined distance
 {
 i=1
 while [ ${i} -lt 50 ]; do
 declare j=$(($i+1));
-singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.X.flr_mrg${i} --output outdir/${Dataset}.X.flr_mrg${j}
+singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} /outdir/${Dataset}.X.flr_mrg${i} --output /outdir/${Dataset}.X.flr_mrg${j}
 
 declare length1=`awk 'END {print NR}' ${OUTDIR}/${Dataset}.X.flr_mrg${i}`
 declare length2=`awk 'END {print NR}' ${OUTDIR}/${Dataset}.X.flr_mrg${j}`
@@ -477,7 +477,7 @@ fi
 # i. Identify CNVs with overlap to centromeric, telomeric and  segmentalduplication regions
 for i in centro telo segmentaldups immuno;
 do
-singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl outdir/${Dataset}.X.flr_mrg_final /analysisdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.X.${i};
+singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/scan_region.pl /outdir/${Dataset}.X.flr_mrg_final /analysisdir/${i}_${genomeversion}.txt -minqueryfrac ${MinQueryFrac} >${OUTDIR}/${Dataset}.X.${i};
 echo "${i} is done";
 done
 
@@ -501,7 +501,7 @@ echo "Finished removal of spurious regions for autosomal CNVs"
 awk 'FNR==NR {a[$1]; next} {if ($5 in a) {print}}' ${OUTDIR}/${Dataset}.auto.passout_QC ${OUTDIR}/${Dataset}.X.flr_mrg_spur >${OUTDIR}/${Dataset}.X.flr_mrg_spur_onlypass
 
 # b. obtain summary statistics for dataset
-singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl outdir/${Dataset}.X.flr_mrg_spur_onlypass -qclrrsd ${LRR_SD_X} --qcbafdrift ${BAF_drift_X} --qcwf ${WF_X} -numsnp ${NoofSNPs_X} -qclogfile outdir/${Dataset}.X.raw.log -qcpassout outdir/${Dataset}.X.passout_QC -qcsumout outdir/${Dataset}.X.sumout_QC -out outdir/${Dataset}.X.flr_QC --chrx
+singularity exec --no-home -B ${OUTDIR}:/outdir -B  ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5/filter_cnv.pl /outdir/${Dataset}.X.flr_mrg_spur_onlypass -qclrrsd ${LRR_SD_X} --qcbafdrift ${BAF_drift_X} --qcwf ${WF_X} -numsnp ${NoofSNPs_X} -qclogfile /outdir/${Dataset}.X.raw.log -qcpassout /outdir/${Dataset}.X.passout_QC -qcsumout /outdir/${Dataset}.X.sumout_QC -out /outdir/${Dataset}.X.flr_QC --chrx
 
 ##########################
 ## BOTH AUTOSOMAL AND X ##
