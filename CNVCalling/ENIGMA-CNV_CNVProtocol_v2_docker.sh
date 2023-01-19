@@ -357,7 +357,7 @@ docker run -v ${OUTDIR}:/outdir -v ${ANALYSISDIR}:/analysisdir  bayramalex/enigm
 # ii. This command ensures that CNVs are getting merged until there are no more CNVs to merge within the defined distance
 {
 i=1
-while [ ${i} -lt 50 ]; do
+while [ ${i} -lt 999 ]; do
 declare j=$(($i+1));
 docker run -v ${OUTDIR}:/outdir -v ${ANALYSISDIR}:/analysisdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.autosomal.flr_mrg${i} --output outdir/${Dataset}.autosomal.flr_mrg${j}
 
@@ -437,7 +437,7 @@ docker run -v ${OUTDIR}:/outdir -v ${ANALYSISDIR}:/analysisdir  bayramalex/enigm
 # ii. This command ensures that CNVs are getting merged until there are no more CNVs to merge within the defined distance
 {
 i=1
-while [ ${i} -lt 50 ]; do
+while [ ${i} -lt 999 ]; do
 declare j=$(($i+1));
 docker run -v ${OUTDIR}:/outdir -v ${ANALYSISDIR}:/analysisdir bayramalex/enigma-cnv:latest /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} outdir/${Dataset}.X.flr_mrg${i} --output outdir/${Dataset}.X.flr_mrg${j}
 
