@@ -362,7 +362,7 @@ singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  
 # ii. This command ensures that CNVs are getting merged until there are no more CNVs to merge within the defined distance
 {
 i=1
-while [ ${i} -lt 50 ]; do
+while [ ${i} -lt 999 ]; do
 declare j=$(($i+1));
 singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction} --bp --signalfile /analysisdir/${PFBname} /outdir/${Dataset}.autosomal.flr_mrg${i} --output /outdir/${Dataset}.autosomal.flr_mrg${j}
 
@@ -442,7 +442,7 @@ singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir  
 # ii. This command ensures that CNVs are getting merged until there are no more CNVs to merge within the defined distance
 {
 i=1
-while [ ${i} -lt 50 ]; do
+while [ ${i} -lt 999 ]; do
 declare j=$(($i+1));
 singularity exec --no-home -B ${OUTDIR}:/outdir -B ${ANALYSISDIR}:/analysisdir ${SOFTWAREDIR}/enigma-cnv.sif /opt/PennCNV-1.0.5//clean_cnv.pl combineseg --fraction ${MergeFraction_X} --bp --signalfile /analysisdir/${PFBname} /outdir/${Dataset}.X.flr_mrg${i} --output /outdir/${Dataset}.X.flr_mrg${j}
 
