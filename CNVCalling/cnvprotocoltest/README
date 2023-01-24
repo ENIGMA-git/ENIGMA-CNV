@@ -4,13 +4,15 @@ This folder contains all the necessary files to test if the CNV-calling script r
 Also, the files of this folder might also be useful (for comparison) to check that the format of your files is correct.
 
 Docker-specifics:
+-make sure you have docker installed on your computer (please refer to Instructions_ENIGMA-CNV-WG_v2.2.pdf)
 -please open docker prior to running
 [and note: the script has only been tested on Mac. Windows may be different]
 
 Singularity-specifics:
+-make sure you have singularity installed on your computer (please refer to Instructions_ENIGMA-CNV-WG_v2.2.pdf).
 -please specify the correct path for the singularity container (enigma-cnv.sif) in the script or place the singularity-container in the analysis-folder.
 
-To run, please download the folder and run the script (ENIGMA-CNV_CNVProtocol_v2_docker_protocoltest.sh or ENIGMA-CNV_CNVProtocol_v2_singularity_protocoltest.sh) from the terminal (according to the instructions in the script itself).
+To run your script, please download this folder and run the script in it (ENIGMA-CNV_CNVProtocol_v2_docker_protocoltest.sh or ENIGMA-CNV_CNVProtocol_v2_singularity_protocoltest.sh) from the terminal (following the instructions in the script itself).
 
 Outputfiles should be two folders:
 enigmatest_output/ [47 files]
