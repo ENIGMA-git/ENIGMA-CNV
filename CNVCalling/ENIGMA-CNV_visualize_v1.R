@@ -280,8 +280,8 @@ cnvfile_auto <- paste0(outdir, dataset, ".auto.flr_QC")
 cnvfile_X <- paste0(outdir, dataset, ".X.flr_QC")
 QCfile_auto_pre <- paste0(outdir, dataset, ".auto.sumout")
 QCfile_X_pre <- paste0(outdir, dataset, ".X.sumout")
-QCfile_auto_post <- paste0(outdir, dataset, ".auto.sumout_QC")
-QCfile_X_post <- paste0(outdir, dataset, ".X.sumout_QC")
+QCfile_auto_post <- paste0(outdir, dataset, ".auto.sumout_QC_onlypass") # added _onlypass since non-passed individuals was included in the other file
+QCfile_X_post <- paste0(outdir, dataset, ".X.sumout_QC_onlypass") # added _onlypass since non-passed individuals was included in the other file
 filename_key <- paste0(outdir, dataset,"_deidentifykey.txt")
 DupRelFile <- paste0(analysisdir, "DupsRelatives.txt")
 DupRelFile_key <- paste0(outdir, dataset, "_DupsRelatives_key.txt")
