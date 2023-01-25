@@ -3,6 +3,8 @@ README_enigmacnvtest
 This folder contains all the necessary files to test if the CNV-calling script runs smoothly on your system.
 Also, the files of this folder might also be useful (for comparison) to check that the format of your files is correct.
 
+Tips for download: https://download-directory.github.io/ [if you just want to download this specific folder]
+
 Docker-specifics:
 -make sure you have docker installed on your computer (please refer to Instructions_ENIGMA-CNV-WG_v2.2.pdf)
 -please open docker prior to running
