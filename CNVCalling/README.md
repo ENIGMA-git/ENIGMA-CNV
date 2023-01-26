@@ -5,7 +5,7 @@ This folder includes easy-to-use scripts for calling and filtering CNVs (based o
 Please follow the overall instructions in: _Instructions_ENIGMA-CNV-WG_v2.2.pdf_.
 
 Needed scripts:
-* _ENIGMA-CNV_CNVProtocol_v2_docker.sh_ or _ENIGMA-CNV_CNVProtocol_v2_singularity.sh_ (choose dependent on software container)
+*  _ENIGMA-CNV_CNVProtocol_v2_singularity.sh_ or _ENIGMA-CNV_CNVProtocol_v2_docker.sh_ (choose dependent on software container. Note that Singularity only works on Linux, docker on Mac - you may run into issues with Mac Os Big Sur - upgrading to Ventura (13.2) helps. Working to get docker functioning on windows)
 * _ENIGMA-CNV_visualize_v1.R_ (for visualization)
 * _compile_pfb_new.pl_ (for compiling PFB)
 
