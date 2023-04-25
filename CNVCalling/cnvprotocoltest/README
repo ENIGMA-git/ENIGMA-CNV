@@ -8,7 +8,7 @@ Tips for download: https://download-directory.github.io/ [if you just want to do
 Docker-specifics:
 -make sure you have docker installed on your computer (please refer to Instructions_ENIGMA-CNV-WG_v2.2.pdf)
 -please open docker prior to running
-[and note: the script has only been tested on Mac. Windows may be different]
+[and note: the script has only been tested on Mac [Please note that the docker protocol may need slight modifications if running on Mac Os Big Sur - upgrading to Ventura (13.2) helps]. Windows may be different]
 
 Singularity-specifics:
 -make sure you have singularity installed on your computer (please refer to Instructions_ENIGMA-CNV-WG_v2.2.pdf).
