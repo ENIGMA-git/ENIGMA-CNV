@@ -1,4 +1,4 @@
 GeneticID	Chip	Chipverson	CNV of Interest	CN	Genome version	Chr	Start	Stop	Length
 A1100	FISH		1q21.1	1	hg19	1	146507318	147824348	1317030
 	aCGH								
-				copy number (0=no copies, 1=deletion, 2='normal', 3=duplication, 4=triplication					
+				CN = copy number (0=no copies, 1=deletion, 2='normal', 3=duplication, 4=triplication					
