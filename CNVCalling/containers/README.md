@@ -25,5 +25,5 @@ singularity build enigma-cnv.sif docker://bayramalex/enigma-cnv:latest
 
 _Download without singularity_
 
-From this repository: _enigma-cnv.sif_
+Please contact the ENIGMA-CNV working group chair Ida Sønderby 
 
